@@ -19,6 +19,9 @@ const config: Config = {
       width: {
         a4: "21cm",
       },
+      colors: {
+        bws: "#be1e2d",
+      },
     },
   },
   plugins: [],

@@ -1,5 +1,5 @@
 import HeaderComp from "./Components/HeaderComp";
-import ResumeWorkspace from "./Components/ResumeWorkspace";
+import ResumeWorkspace from "./Containers/ResumeWorkspace";
 
 export default function Home() {
   return (
