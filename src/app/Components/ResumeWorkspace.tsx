@@ -33,6 +33,39 @@ const ResumeWorkspace = () => {
     }
   };
 
+  const generateDocx = async () => {
+    if (!resumeRef.current) return;
+
+    const elements = Array.from(
+      resumeRef.current.querySelectorAll("[data-text]")
+    );
+    const paragraphs = elements.map((element) => {
+      const htmlElement = element as HTMLElement;
+      return new Paragraph({
+        children: [
+          new TextRun({
+            text: htmlElement.innerText,
+            bold: true,
+            color: htmlElement.style.color.replace("#", ""),
+            highlight: htmlElement.style.backgroundColor.replace("#", ""),
+          }),
+        ],
+      });
+    });
+
+    const doc = new Document({
+      sections: [
+        {
+          properties: {},
+          children: paragraphs,
+        },
+      ],
+    });
+
+    const blob = await Packer.toBlob(doc);
+    saveAs(blob, "resume.docx");
+  };
+
   return (
     <div className="flex flex-col items-center justify-center">
       <button
@@ -41,9 +74,15 @@ const ResumeWorkspace = () => {
       >
         Generate PDF
       </button>
+      <button
+        onClick={generateDocx}
+        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded"
+      >
+        Generate Word Doc
+      </button>
       <div
         ref={resumeRef}
-        className="h-a4 w-a4 border-2 border-amber-500 bg-blue-900 relative"
+        className="h-a4 w-a4 border-2 border-amber-500 bg-white relative p4"
       >
         <TestContent color="bg-green-500" top="top-10" left="left-10" />
         <TestContent color="bg-red-600" top="top-60" left="left-60" />
