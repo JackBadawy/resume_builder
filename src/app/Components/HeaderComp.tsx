@@ -1,5 +1,5 @@
 type HeaderCompProps = {
-  title: String;
+  title: string;
 };
 
 const HeaderComp: React.FC<HeaderCompProps> = ({ title }) => {
