@@ -6,7 +6,9 @@ type TestContentProps = {
 
 const TestContent: React.FC<TestContentProps> = ({ color, top, left }) => {
   return (
-    <span className={`${color} absolute ${top} ${left}`}>TEST CONTENT!!!</span>
+    <span className={`${color} absolute ${top} ${left} font-sans `} data-text>
+      TEST CONTENT!!!
+    </span>
   );
 };
 
