@@ -16,6 +16,7 @@ import {
 } from "docx";
 import { saveAs } from "file-saver";
 import SubHeading from "../Components/SubHeading";
+import Section from "../Components/ResumeSection";
 
 const ResumeWorkspace = () => {
   const resumeRef = useRef<HTMLDivElement>(null);
@@ -101,7 +102,7 @@ const ResumeWorkspace = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center ">
       <button
         onClick={generatePDF}
         className="mb-4 px-4 py-2 bg-blue-500 text-white rounded"
@@ -116,14 +117,10 @@ const ResumeWorkspace = () => {
       </button>
       <div
         ref={resumeRef}
-        className=" h-a4 w-a4 border-2 border-amber-500 bg-white p4"
+        className=" h-a4 w-a4 border-2 border-amber-500 bg-white p4 p-msmargin"
       >
-        <div className="flex flex-col">
-          <SubHeading />
-          <textarea className="text-black" data-text>
-            text
-          </textarea>
-        </div>
+        <Section subHeadingText="SubHeading 1" />
+        <Section subHeadingText="SubHeading 2" />
       </div>
     </div>
   );

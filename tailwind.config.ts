@@ -22,6 +22,12 @@ const config: Config = {
       colors: {
         bws: "#be1e2d",
       },
+      fontFamily: {
+        aptos: ['"Aptos (body)"', "sans-serif"],
+      },
+      padding: {
+        msmargin: "2.54cm",
+      },
     },
   },
   plugins: [],
