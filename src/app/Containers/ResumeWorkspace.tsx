@@ -1,25 +1,17 @@
-//consider moving to containers folder if rendering lots of components
-//consider removing outer container
-//bg-green-500
-
 "use client";
 
 import jsPDF from "jspdf";
 import { useRef } from "react";
-import {
-  Document,
-  Packer,
-  Paragraph,
-  TextRun,
-  BorderStyle,
-  WidthType,
-} from "docx";
+import { Document, Packer, Paragraph, TextRun } from "docx";
 import { saveAs } from "file-saver";
-import SubHeading from "../Components/SubHeading";
 import Section from "../Components/ResumeSection";
+import { SectionsProvider, useSections } from "../Context/SectionsContext";
+import UtilityPanel from "../Components/UtilitiesPanel";
+import GenerateButtons from "../Components/GenerateButtons";
 
 const ResumeWorkspace = () => {
   const resumeRef = useRef<HTMLDivElement>(null);
+  const { sections } = useSections();
 
   const generatePDF = () => {
     const pdf = new jsPDF({
@@ -62,10 +54,7 @@ const ResumeWorkspace = () => {
             }),
           ],
         });
-      } else if (
-        htmlElement.tagName.toLowerCase() === "span" &&
-        htmlElement.className.includes("bg-bws")
-      ) {
+      } else if (htmlElement.tagName.toLowerCase() === "span") {
         return new Paragraph({
           children: [
             new TextRun({
@@ -102,25 +91,18 @@ const ResumeWorkspace = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center ">
-      <button
-        onClick={generatePDF}
-        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded"
-      >
-        Generate PDF
-      </button>
-      <button
-        onClick={generateDocx}
-        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded"
-      >
-        Generate Word Doc
-      </button>
-      <div
-        ref={resumeRef}
-        className=" h-a4 w-a4 border-2 border-amber-500 bg-white p4 p-msmargin"
-      >
-        <Section subHeadingText="SubHeading 1" />
-        <Section subHeadingText="SubHeading 2" />
+    <div className="flex flex-col items-center justify-center">
+      <GenerateButtons generatePDF={generatePDF} generateDocx={generateDocx} />
+      <div className="horizontalResume&UtilCont flex">
+        <UtilityPanel />
+        <div
+          ref={resumeRef}
+          className="resumePreview h-a4 w-a4 border-2 border-amber-500 bg-white p4 p-msmargin"
+        >
+          {sections.map((subHeadingText, index) => (
+            <Section key={index} subHeadingText={subHeadingText} />
+          ))}
+        </div>
       </div>
     </div>
   );
