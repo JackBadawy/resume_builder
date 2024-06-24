@@ -28,6 +28,9 @@ const config: Config = {
       padding: {
         msmargin: "2.54cm",
       },
+      fontSize: {
+        "word-20": "26.7px",
+      },
     },
   },
   plugins: [],

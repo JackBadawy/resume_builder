@@ -8,6 +8,7 @@ import Section from "../Components/ResumeSection";
 import { SectionsProvider, useSections } from "../Context/SectionsContext";
 import UtilityPanel from "../Components/UtilitiesPanel";
 import GenerateButtons from "../Components/GenerateButtons";
+import ResumeHeading from "../Components/ResumeHeading";
 
 const ResumeWorkspace = () => {
   const resumeRef = useRef<HTMLDivElement>(null);
@@ -99,6 +100,7 @@ const ResumeWorkspace = () => {
           ref={resumeRef}
           className="resumePreview h-a4 w-a4 border-2 border-amber-500 bg-white p4 p-msmargin"
         >
+          <ResumeHeading />
           {sections.map((subHeadingText, index) => (
             <Section key={index} subHeadingText={subHeadingText} />
           ))}
