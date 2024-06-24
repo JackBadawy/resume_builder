@@ -48,73 +48,42 @@ const ResumeWorkspace = () => {
     );
     const children = elements.map((element) => {
       const htmlElement = element as HTMLElement;
-      let textContent = "";
-      let backgroundColor = "";
-      let color = htmlElement.style.color.replace("#", "") || "000000"; // Default text color to black
+      let textContent =
+        (htmlElement as HTMLTextAreaElement).value || htmlElement.innerText;
 
       if (htmlElement.tagName.toLowerCase() === "textarea") {
-        textContent = (htmlElement as HTMLTextAreaElement).value;
-        backgroundColor = "FFFFFF";
-        color = "000000";
-
         return new Paragraph({
           children: [
             new TextRun({
               text: textContent,
-              color: color,
+              size: 22,
+              font: "Aptos (body)", //here's where i'll add dynamic font
             }),
           ],
-          border: {
-            top: { size: 2, color: "000000", style: BorderStyle.SINGLE },
-            bottom: { size: 2, color: "000000", style: BorderStyle.SINGLE },
-            left: { size: 2, color: "000000", style: BorderStyle.SINGLE },
-            right: { size: 2, color: "000000", style: BorderStyle.SINGLE },
-          },
         });
       } else if (
         htmlElement.tagName.toLowerCase() === "span" &&
         htmlElement.className.includes("bg-bws")
       ) {
-        textContent = htmlElement.innerText;
-        backgroundColor = "be1e2d"; // Custom color
-
         return new Paragraph({
           children: [
             new TextRun({
               text: textContent,
               bold: true,
-              color: "FFFFFF", // Text color white for contrast
+              underline: {},
+              size: 32,
+              font: "Aptos (body)",
             }),
           ],
-          shading: {
-            fill: backgroundColor,
-          },
-          alignment: "center",
-          width: {
-            size: 3840, // 256 pixels * 15 twips/pixel
-            type: WidthType.DXA,
-          },
-          height: {
-            size: 1440, // 96 pixels * 15 twips/pixel
-            type: WidthType.DXA,
-          },
         });
-      } else {
-        textContent = htmlElement.innerText;
-        backgroundColor = "FFFFFF"; // Default background color
       }
 
-      const textRun = new TextRun({
-        text: textContent,
-        bold: true,
-        color: color,
-      });
-
       return new Paragraph({
-        children: [textRun],
-        shading: {
-          fill: backgroundColor,
-        },
+        children: [
+          new TextRun({
+            text: textContent,
+          }),
+        ],
       });
     });
 
