@@ -27,6 +27,8 @@ const ResumeHeading = () => {
         onChange={(e) => handleChange(e, "name")}
         onBlur={() => setEditName(false)}
         className="text-word-20 font-aptos"
+        id="fullName"
+        data-text
       />
 
       <input
@@ -34,6 +36,8 @@ const ResumeHeading = () => {
         onChange={(e) => handleChange(e, "job")}
         onBlur={() => setEditJob(false)}
         className="text-word-20 font-aptos"
+        id="jobTitle"
+        data-text
       />
     </div>
   );
