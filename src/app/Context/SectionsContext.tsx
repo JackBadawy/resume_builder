@@ -13,8 +13,10 @@ export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [sections, setSections] = useState<string[]>([
-    "SubHeading 1",
-    "SubHeading 2",
+    "About Me",
+    "Work Experience",
+    "Education",
+    "References",
   ]);
 
   const addSection = (sectionName: string) => {

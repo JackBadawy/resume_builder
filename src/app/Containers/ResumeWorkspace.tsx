@@ -52,6 +52,9 @@ const ResumeWorkspace = () => {
                 size: 22,
                 font: "Aptos (body)", //here's where i'll add dynamic font
               }),
+              new TextRun({
+                break: 1,
+              }),
             ],
           });
         } else if (htmlElement.tagName.toLowerCase() === "span") {
@@ -91,7 +94,15 @@ const ResumeWorkspace = () => {
               },
             });
 
-            return [headingParagraph, horizontalLineParagraph];
+            const breakParagraph = new Paragraph({
+              children: [
+                new TextRun({
+                  break: 1,
+                }),
+              ],
+            });
+
+            return [headingParagraph, horizontalLineParagraph, breakParagraph];
           }
 
           return headingParagraph;
