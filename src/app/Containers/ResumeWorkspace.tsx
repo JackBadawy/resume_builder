@@ -76,7 +76,7 @@ const ResumeWorkspace = () => {
               new TextRun({
                 text: textContent,
                 bold: true,
-                size: isJobTitle ? 36 : 44,
+                size: isJobTitle ? 36 : 50,
                 font: "Aptos (body)",
               }),
             ],
