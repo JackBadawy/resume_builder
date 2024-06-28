@@ -50,7 +50,7 @@ const ResumeHeading = () => {
         id="jobTitle"
         data-text
       />
-      <hr className="font-bold font-black border-black mb-6" />
+      <hr className="font-bold font-black border-black" />
     </div>
   );
 };

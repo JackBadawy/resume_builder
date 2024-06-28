@@ -31,6 +31,7 @@ const config: Config = {
       fontSize: {
         "word-20": "26.7px",
         "word-18": "24px",
+        "word-11": "15px",
       },
     },
   },

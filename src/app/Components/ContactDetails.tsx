@@ -28,50 +28,51 @@ const ContactDetails = ({
 
   return (
     <div className="contactDetail text-black flex flex-col">
-      <label className="text-word-16 font-aptos mb-2">
+      <label className="text-word-11 font-aptos ">
         Email:
         <input
           value={details.email}
           onChange={(e) => handleChange(e, "email")}
           placeholder="Email"
-          className="text-word-16 font-aptos mb-2"
+          className="text-word-11 font-aptos "
           id="contactDetail"
           data-text
         />
       </label>
-      <label className="text-word-16 font-aptos mb-2">
+      <label className="text-word-11 font-aptos ">
         Phone:
         <input
           value={details.phone}
           onChange={(e) => handleChange(e, "phone")}
           placeholder="Phone"
-          className="text-word-16 font-aptos mb-2"
+          className="text-word-11 font-aptos "
           id="contactDetail"
           data-text
         />
       </label>
-      <label className="text-word-16 font-aptos mb-2">
+      <label className="text-word-11 font-aptos ">
         Address:
         <input
           value={details.address}
           onChange={(e) => handleChange(e, "address")}
           placeholder="Address"
-          className="text-word-16 font-aptos mb-2"
+          className="text-word-11 font-aptos "
           id="contactDetail"
           data-text
         />
       </label>
-      <label className="text-word-16 font-aptos">
+      <label className="text-word-11 font-aptos">
         LinkedIn Profile:
         <input
           value={details.linkedin}
           onChange={(e) => handleChange(e, "linkedin")}
           placeholder="LinkedIn Profile"
-          className="text-word-16 font-aptos mb-2"
+          className="text-word-11 font-aptos "
           id="contactDetail"
           data-text
         />
       </label>
+      <hr className="font-bold font-black border-black mt-3" />
     </div>
   );
 };
