@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSections } from "../Context/SectionsContext";
 
 const UtilityPanel: React.FC = () => {
@@ -29,7 +29,7 @@ const UtilityPanel: React.FC = () => {
               key={index}
               className="bg-slate-700 rounded p-1 flex justify-between items-center"
             >
-              <span>{section}</span>
+              <span>{section.heading}</span>
               <div className="flex gap-1">
                 <button
                   onClick={() => moveSectionUp(index)}

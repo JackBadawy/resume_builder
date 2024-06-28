@@ -1,5 +1,5 @@
+import React, { useRef } from "react";
 import jsPDF from "jspdf";
-import { useRef } from "react";
 import { Document, Packer, Paragraph, TextRun, BorderStyle } from "docx";
 import { saveAs } from "file-saver";
 import Section from "../Components/ResumeSection";
@@ -8,7 +8,7 @@ import UtilityPanel from "../Components/UtilitiesPanel";
 import GenerateButtons from "../Components/GenerateButtons";
 import ResumeHeading from "../Components/ResumeHeading";
 
-const ResumeWorkspace = () => {
+const ResumeWorkspace: React.FC = () => {
   const resumeRef = useRef<HTMLDivElement>(null);
   const { sections } = useSections();
 
@@ -141,8 +141,12 @@ const ResumeWorkspace = () => {
           className="resumePreview h-a4 w-a4 border-2 border-amber-500 bg-white p4 p-msmargin"
         >
           <ResumeHeading />
-          {sections.map((subHeadingText, index) => (
-            <Section key={index} subHeadingText={subHeadingText} />
+          {sections.map((section, index) => (
+            <Section
+              key={index}
+              subHeadingText={section.heading}
+              index={index}
+            />
           ))}
         </div>
       </div>

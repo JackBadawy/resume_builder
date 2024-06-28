@@ -1,7 +1,13 @@
 import { createContext, useState, useContext, ReactNode } from "react";
 
+interface Section {
+  heading: string;
+  text: string;
+}
+
 interface SectionsContextType {
-  sections: string[];
+  sections: Section[];
+  setSections: React.Dispatch<React.SetStateAction<Section[]>>;
   addSection: (sectionName: string) => void;
   moveSectionUp: (index: number) => void;
   moveSectionDown: (index: number) => void;
@@ -14,15 +20,15 @@ const SectionsContext = createContext<SectionsContextType | undefined>(
 export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [sections, setSections] = useState<string[]>([
-    "About Me",
-    "Work Experience",
-    "Education",
-    "References",
+  const [sections, setSections] = useState<Section[]>([
+    { heading: "About Me", text: "" },
+    { heading: "Work Experience", text: "" },
+    { heading: "Education", text: "" },
+    { heading: "References", text: "" },
   ]);
 
   const addSection = (sectionName: string) => {
-    setSections([...sections, sectionName]);
+    setSections([...sections, { heading: sectionName, text: "" }]);
   };
 
   const moveSectionUp = (index: number) => {
@@ -49,7 +55,13 @@ export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
 
   return (
     <SectionsContext.Provider
-      value={{ sections, addSection, moveSectionUp, moveSectionDown }}
+      value={{
+        sections,
+        setSections,
+        addSection,
+        moveSectionUp,
+        moveSectionDown,
+      }}
     >
       {children}
     </SectionsContext.Provider>
