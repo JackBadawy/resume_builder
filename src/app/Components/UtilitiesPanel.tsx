@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useSections } from "../Context/SectionsContext";
 
 const UtilityPanel: React.FC = () => {
-  const { sections, addSection } = useSections();
+  const { sections, addSection, moveSectionUp, moveSectionDown } =
+    useSections();
   const [newSectionPrompt, setNewSecPrompt] = useState<boolean>(false);
   const [newSubHeading, setNewSubHeading] = useState<string>("");
 
@@ -22,9 +23,28 @@ const UtilityPanel: React.FC = () => {
     <div className="utilContainer h-a4 p-4 flex flex-col gap-4">
       <div>
         <h2 className="underline">Sections:</h2>
-        <ul>
+        <ul className="flex flex-col gap-2">
           {sections.map((section, index) => (
-            <li key={index}>{section}</li>
+            <li
+              key={index}
+              className="bg-slate-700 rounded p-1 flex justify-between items-center"
+            >
+              <span>{section}</span>
+              <div className="flex gap-1">
+                <button
+                  onClick={() => moveSectionUp(index)}
+                  className="bg-blue-500 text-white px-2 rounded"
+                >
+                  ↑
+                </button>
+                <button
+                  onClick={() => moveSectionDown(index)}
+                  className="bg-blue-500 text-white px-2 rounded"
+                >
+                  ↓
+                </button>
+              </div>
+            </li>
           ))}
         </ul>
       </div>
