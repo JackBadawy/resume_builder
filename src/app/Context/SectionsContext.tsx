@@ -3,6 +3,8 @@ import { createContext, useState, useContext, ReactNode } from "react";
 interface SectionsContextType {
   sections: string[];
   addSection: (sectionName: string) => void;
+  moveSectionUp: (index: number) => void;
+  moveSectionDown: (index: number) => void;
 }
 
 const SectionsContext = createContext<SectionsContextType | undefined>(
@@ -23,8 +25,32 @@ export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
     setSections([...sections, sectionName]);
   };
 
+  const moveSectionUp = (index: number) => {
+    if (index > 0) {
+      const newSections = [...sections];
+      [newSections[index - 1], newSections[index]] = [
+        newSections[index],
+        newSections[index - 1],
+      ];
+      setSections(newSections);
+    }
+  };
+
+  const moveSectionDown = (index: number) => {
+    if (index < sections.length - 1) {
+      const newSections = [...sections];
+      [newSections[index + 1], newSections[index]] = [
+        newSections[index],
+        newSections[index + 1],
+      ];
+      setSections(newSections);
+    }
+  };
+
   return (
-    <SectionsContext.Provider value={{ sections, addSection }}>
+    <SectionsContext.Provider
+      value={{ sections, addSection, moveSectionUp, moveSectionDown }}
+    >
       {children}
     </SectionsContext.Provider>
   );
