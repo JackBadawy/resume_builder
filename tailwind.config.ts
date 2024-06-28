@@ -29,8 +29,10 @@ const config: Config = {
         msmargin: "2.54cm",
       },
       fontSize: {
+        "word-25": "33.3px",
         "word-20": "26.7px",
         "word-18": "24px",
+        "word-16": "21.3px",
         "word-11": "15px",
       },
     },

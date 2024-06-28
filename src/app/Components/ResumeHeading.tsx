@@ -28,14 +28,14 @@ const ResumeHeading = () => {
   };
 
   return (
-    <div className="resumeHeading text-black">
+    <div className="resumeHeading text-black flex flex-col">
       <input
         value={fullname}
         onChange={(e) => handleChange(e, "name")}
         onFocus={() => handleFocus("name")}
         onBlur={() => setEditName(false)}
         placeholder="Click to Enter Name..."
-        className="text-word-20 font-aptos font-bold"
+        className="text-word-25 font-aptos font-bold"
         id="fullName"
         data-text
       />
