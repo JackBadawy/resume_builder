@@ -21,25 +21,27 @@ const UtilityPanel: React.FC = () => {
 
   return (
     <div className="utilContainer h-a4 p-4 flex flex-col gap-4">
-      <div>
-        <h2 className="underline">Sections:</h2>
-        <ul className="flex flex-col gap-2">
+      <div className="bg-slate-800 p-3 rounded-lg shadow-md">
+        <h2 className="underline text-white text-lg font-semibold">
+          Sections:
+        </h2>
+        <ul className="flex flex-col gap-2 mt-2">
           {sections.map((section, index) => (
             <li
               key={index}
               className="bg-slate-700 rounded p-1 flex justify-between items-center"
             >
-              <span>{section.heading}</span>
+              <span className="mr-1">{section.heading}</span>
               <div className="flex gap-1">
                 <button
                   onClick={() => moveSectionUp(index)}
-                  className="bg-blue-500 text-white px-2 rounded"
+                  className="bg-bws text-white px-2 rounded"
                 >
                   ↑
                 </button>
                 <button
                   onClick={() => moveSectionDown(index)}
-                  className="bg-blue-500 text-white px-2 rounded"
+                  className="bg-bws text-white px-2 rounded"
                 >
                   ↓
                 </button>
