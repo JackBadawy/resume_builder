@@ -1,5 +1,3 @@
-import React from "react";
-
 interface GenerateButtonsProps {
   generatePDF: () => void;
   generateDocx: () => void;

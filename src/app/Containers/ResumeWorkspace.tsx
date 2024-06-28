@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import jsPDF from "jspdf";
 import { Document, Packer, Paragraph, TextRun, BorderStyle } from "docx";
 import { saveAs } from "file-saver";
@@ -7,10 +7,18 @@ import { useSections } from "../Context/SectionsContext";
 import UtilityPanel from "../Components/UtilitiesPanel";
 import GenerateButtons from "../Components/GenerateButtons";
 import ResumeHeading from "../Components/ResumeHeading";
+import ContactDetails from "../Components/ContactDetails";
 
 const ResumeWorkspace: React.FC = () => {
   const resumeRef = useRef<HTMLDivElement>(null);
   const { sections } = useSections();
+  const [contactDetails, setContactDetails] = useState<Record<string, string>>(
+    {}
+  );
+
+  const handleContactDetailsUpdate = (details: Record<string, string>) => {
+    setContactDetails(details);
+  };
 
   const generatePDF = () => {
     const pdf = new jsPDF({
@@ -38,7 +46,36 @@ const ResumeWorkspace: React.FC = () => {
     const elements = Array.from(
       resumeRef.current.querySelectorAll("[data-text]")
     );
-    const children = elements
+
+    const contactParagraphs = Object.entries(contactDetails).map(
+      ([key, value]) =>
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: value,
+              size: 22,
+              font: "Aptos (body)",
+            }),
+          ],
+        })
+    );
+
+    const horizontalLineParagraph = new Paragraph({
+      border: {
+        bottom: {
+          color: "000000",
+          space: 1,
+          style: BorderStyle.SINGLE,
+          size: 6,
+        },
+      },
+    });
+
+    const filteredElements = elements.filter(
+      (element) => !(element as HTMLInputElement).id.includes("contactDetail")
+    );
+
+    const children = filteredElements
       .map((element) => {
         const htmlElement = element as HTMLElement;
         let textContent =
@@ -69,7 +106,10 @@ const ResumeWorkspace: React.FC = () => {
               }),
             ],
           });
-        } else if (htmlElement.tagName.toLowerCase() === "input") {
+        } else if (
+          htmlElement.tagName.toLowerCase() === "input" &&
+          !htmlElement.id.includes("contactDetail")
+        ) {
           const isJobTitle = htmlElement.id === "jobTitle";
           const headingParagraph = new Paragraph({
             children: [
@@ -118,11 +158,18 @@ const ResumeWorkspace: React.FC = () => {
       })
       .flat();
 
+    const docChildren = [
+      ...children.slice(0, 3),
+      ...contactParagraphs,
+      horizontalLineParagraph,
+      ...children.slice(3),
+    ];
+
     const doc = new Document({
       sections: [
         {
           properties: {},
-          children: children,
+          children: docChildren,
         },
       ],
     });
@@ -141,6 +188,7 @@ const ResumeWorkspace: React.FC = () => {
           className="resumePreview h-a4 w-a4 border-2 border-amber-500 bg-white p4 p-msmargin"
         >
           <ResumeHeading />
+          <ContactDetails onUpdate={handleContactDetailsUpdate} />
           {sections.map((section, index) => (
             <Section
               key={index}
