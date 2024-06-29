@@ -76,7 +76,7 @@ const ContactDetails = ({
           data-text
         />
       </label>
-      <hr className="font-bold font-black border-black mt-3" />
+      <hr className="font-bold font-black border-black mt-3 mb-6" />
     </div>
   );
 };
