@@ -27,47 +27,51 @@ const ContactDetails = ({
   }, [details, onUpdate]);
 
   return (
-    <div className="contactDetail text-black flex flex-col">
-      <label className="text-word-11 font-aptos flex">
-        Email:
+    <div className="contactDetail text-black flex flex-col pt-1">
+      <label className="flex items-center text-word-11 font-aptos">
+        <span className="h-17p flex items-center">Email:</span>
         <input
           value={details.email}
           onChange={(e) => handleChange(e, "email")}
           placeholder="Click to Enter Email"
-          className="text-word-11 font-aptos flex-grow"
+          className="flex-grow text-word-11 font-aptos h-17p pl-1 focus:outline-none"
+          autoComplete="off"
           id="contactDetail"
           data-text
         />
       </label>
-      <label className="text-word-11 font-aptos flex">
-        Phone:
+      <label className="flex items-center text-word-11 font-aptos">
+        <span className="h-17p flex items-center">Phone:</span>
         <input
           value={details.phone}
           onChange={(e) => handleChange(e, "phone")}
-          placeholder="Click to Enter Phone Number"
-          className="text-word-11 font-aptos flex-grow"
+          placeholder="Click to Enter Phone"
+          className="flex-grow text-word-11 font-aptos h-17p pl-1 focus:outline-none"
+          autoComplete="off"
           id="contactDetail"
           data-text
         />
       </label>
-      <label className="text-word-11 font-aptos flex">
-        Address:
+      <label className="flex items-center text-word-11 font-aptos">
+        <span className="h-17p flex items-center">Address:</span>
         <input
           value={details.address}
           onChange={(e) => handleChange(e, "address")}
           placeholder="Click to Enter Address"
-          className="text-word-11 font-aptos flex-grow"
+          className="flex-grow text-word-11 font-aptos h-17p pl-1 focus:outline-none"
+          autoComplete="off"
           id="contactDetail"
           data-text
         />
       </label>
-      <label className="text-word-11 font-aptos flex">
-        LinkedIn Profile:
+      <label className="flex items-center text-word-11 font-aptos">
+        <span className="h-17p flex items-center">LinkedIn Profile:</span>
         <input
           value={details.linkedin}
           onChange={(e) => handleChange(e, "linkedin")}
           placeholder="Click to Enter LinkedIn Profile"
-          className="text-word-11 font-aptos flex-grow"
+          className="flex-grow text-word-11 font-aptos h-17p pl-1 focus:outline-none"
+          autoComplete="off"
           id="contactDetail"
           data-text
         />

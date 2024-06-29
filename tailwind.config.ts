@@ -15,6 +15,7 @@ const config: Config = {
       },
       height: {
         a4: "29.7cm",
+        "17p": "17px",
       },
       width: {
         a4: "21cm",

@@ -35,8 +35,9 @@ const ResumeHeading = () => {
         onFocus={() => handleFocus("name")}
         onBlur={() => setEditName(false)}
         placeholder="Click to Enter Name..."
-        className="text-word-25 font-aptos font-bold"
+        className="text-word-25 font-aptos font-bold focus:outline-none"
         id="fullName"
+        autoComplete="off"
         data-text
       />
 
@@ -46,8 +47,9 @@ const ResumeHeading = () => {
         onFocus={() => handleFocus("job")}
         onBlur={() => setEditJob(false)}
         placeholder="Click to Enter Job Title..."
-        className="text-word-18 font-aptos font-bold mb-3"
+        className="text-word-18 font-aptos font-bold mb-3 focus:outline-none "
         id="jobTitle"
+        autoComplete="off"
         data-text
       />
       <hr className="font-bold font-black border-black" />
