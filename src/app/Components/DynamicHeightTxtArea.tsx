@@ -19,7 +19,7 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
   const adjustTextareaHeight = () => {
     const textarea = textareaRef.current;
     if (textarea) {
-      // textarea.style.height = "auto";
+      textarea.style.height = "auto";
       textarea.style.height = `${textarea.scrollHeight}px`;
     }
   };
@@ -34,7 +34,7 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
   return (
     <textarea
       ref={textareaRef}
-      className="font-aptos text-black text-word-11 w-full border border-gray-300 rounded h-auto resize-none overflow-hidden p-2"
+      className="font-aptos text-black text-word-11 w-full border-none resize-none"
       placeholder="Enter text here..."
       onChange={handleTextChange}
       value={sections[index].text}
