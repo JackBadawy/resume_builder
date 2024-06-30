@@ -55,13 +55,15 @@ const ResumeWorkspace: React.FC = () => {
         >
           <ResumeHeading />
           <ContactDetails onUpdate={handleContactDetailsUpdate} />
-          {sections.map((section, index) => (
-            <Section
-              key={index}
-              subHeadingText={section.heading}
-              index={index}
-            />
-          ))}
+          <div className="flex flex-col" id="sectionsContainer">
+            {sections.map((section, index) => (
+              <Section
+                key={index}
+                subHeadingText={section.heading}
+                index={index}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

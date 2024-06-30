@@ -1,5 +1,5 @@
 import SubHeading from "./SubHeading";
-import { useSections } from "../Context/SectionsContext";
+import DynamicHeightTxtArea from "./DynamicHeightTxtArea";
 
 type SectionProps = {
   subHeadingText: string;
@@ -7,24 +7,10 @@ type SectionProps = {
 };
 
 const Section: React.FC<SectionProps> = ({ subHeadingText, index }) => {
-  const { sections, setSections } = useSections();
-
-  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newSections = [...sections];
-    newSections[index].text = e.target.value;
-    setSections(newSections);
-  };
-
   return (
-    <div className="mb-4">
+    <div>
       <SubHeading text={subHeadingText} />
-      <textarea
-        className="text-black w-full mt-2 p-2 border border-gray-300 rounded"
-        placeholder="Enter text here..."
-        value={sections[index].text}
-        onChange={handleTextChange}
-        data-text
-      ></textarea>
+      <DynamicHeightTxtArea index={index} />
     </div>
   );
 };
