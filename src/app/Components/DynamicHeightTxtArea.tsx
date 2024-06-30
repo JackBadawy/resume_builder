@@ -34,7 +34,7 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
   return (
     <textarea
       ref={textareaRef}
-      className="font-aptos text-black text-word-11 w-full border-none resize-none p-0 overflow-hidden"
+      className="font-aptos text-black text-word-11 w-full border-none resize-none p-0 overflow-hidden outline-none"
       placeholder="Enter text here..."
       rows={1}
       onChange={handleTextChange}

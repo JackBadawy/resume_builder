@@ -73,7 +73,7 @@ export const generateDocx = async (
             new TextRun({
               text: textContent,
               size: 22,
-              font: "Aptos (body)", //here's where i'll add dynamic font
+              font: "Aptos (body)",
             }),
             new TextRun({
               break: 1,
