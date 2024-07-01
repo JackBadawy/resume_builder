@@ -23,7 +23,7 @@ export const ContactDetailsProvider: React.FC<{ children: ReactNode }> = ({
     linkedin: "",
   });
 
-  const [linkedInEnabled, setLinkedInEnabled] = useState<boolean>(false);
+  const [linkedInEnabled, setLinkedInEnabled] = useState<boolean>(true);
 
   return (
     <ContactDetailsContext.Provider
