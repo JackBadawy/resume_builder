@@ -1,4 +1,10 @@
-import { createContext, useState, useContext, ReactNode } from "react";
+import {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  ReactNode,
+} from "react";
 
 interface Section {
   heading: string;
@@ -20,12 +26,23 @@ const SectionsContext = createContext<SectionsContextType | undefined>(
 export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [sections, setSections] = useState<Section[]>([
-    { heading: "About Me", text: "" },
-    { heading: "Work Experience", text: "" },
-    { heading: "Education", text: "" },
-    { heading: "References", text: "" },
-  ]);
+  const initialSections = () => {
+    const savedSections = localStorage.getItem("sections");
+    return savedSections
+      ? JSON.parse(savedSections)
+      : [
+          { heading: "About Me", text: "" },
+          { heading: "Work Experience", text: "" },
+          { heading: "Education", text: "" },
+          { heading: "References", text: "" },
+        ];
+  };
+
+  const [sections, setSections] = useState<Section[]>(initialSections);
+
+  useEffect(() => {
+    localStorage.setItem("sections", JSON.stringify(sections));
+  }, [sections]);
 
   const addSection = (sectionName: string) => {
     setSections([...sections, { heading: sectionName, text: "" }]);

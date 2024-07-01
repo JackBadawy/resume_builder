@@ -1,28 +1,28 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useResumeHeading } from "../Context/ResumeHeadingContext";
 
-const ResumeHeading = () => {
-  const [fullname, setFullname] = useState<string>("");
-  const [jobTitle, setJobTitle] = useState<string>("");
+const ResumeHeading: React.FC = () => {
+  const { fullName, setFullName, jobTitle, setJobTitle } = useResumeHeading();
   const [editName, setEditName] = useState<boolean>(false);
   const [editJob, setEditJob] = useState<boolean>(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    thing: string
+    field: string
   ) => {
-    if (thing === "name") {
-      setFullname(e.target.value);
+    if (field === "name") {
+      setFullName(e.target.value);
     }
-    if (thing === "job") {
+    if (field === "job") {
       setJobTitle(e.target.value);
     }
   };
 
-  const handleFocus = (thing: string) => {
-    if (thing === "name" && fullname === "Click to Enter Name...") {
-      setFullname("");
+  const handleFocus = (field: string) => {
+    if (field === "name" && fullName === "Click to Enter Name...") {
+      setFullName("");
     }
-    if (thing === "job" && jobTitle === "Click to Enter Job Title...") {
+    if (field === "job" && jobTitle === "Click to Enter Job Title...") {
       setJobTitle("");
     }
   };
@@ -30,7 +30,7 @@ const ResumeHeading = () => {
   return (
     <div className="resumeHeading text-black flex flex-col">
       <input
-        value={fullname}
+        value={fullName}
         onChange={(e) => handleChange(e, "name")}
         onFocus={() => handleFocus("name")}
         onBlur={() => setEditName(false)}

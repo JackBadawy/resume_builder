@@ -1,18 +1,15 @@
 "use client";
 import HeaderComp from "./Components/HeaderComp";
 import ResumeWorkspace from "./Containers/ResumeWorkspace";
-import { ContactDetailsProvider } from "./Context/ContactDetailsContext";
-import { SectionsProvider } from "./Context/SectionsContext";
+import Providers from "./Context/Providers";
 
 export default function Home() {
   return (
-    <div>
-      <SectionsProvider>
-        <ContactDetailsProvider>
-          <HeaderComp title="Resume Builder" />
-          <ResumeWorkspace />
-        </ContactDetailsProvider>
-      </SectionsProvider>
-    </div>
+    <Providers>
+      <div>
+        <HeaderComp title="Resume Builder" />
+        <ResumeWorkspace />
+      </div>
+    </Providers>
   );
 }
