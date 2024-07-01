@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef } from "react";
 import jsPDF from "jspdf";
 import { generateDocx } from "../Utility/GenerateDocx";
 import Section from "../Components/ResumeSection";
@@ -12,7 +12,8 @@ import { useContactDetails } from "../Context/ContactDetailsContext";
 const ResumeWorkspace: React.FC = () => {
   const resumeRef = useRef<HTMLDivElement>(null);
   const { sections } = useSections();
-  const { contactDetails, linkedInEnabled } = useContactDetails();
+  const { contactDetails, linkedInEnabled, addressEnabled } =
+    useContactDetails();
 
   const generatePDF = () => {
     const pdf = new jsPDF({
@@ -40,7 +41,12 @@ const ResumeWorkspace: React.FC = () => {
         generatePDF={generatePDF}
         generateDocx={() =>
           resumeRef.current &&
-          generateDocx(resumeRef.current, contactDetails, linkedInEnabled)
+          generateDocx(
+            resumeRef.current,
+            contactDetails,
+            linkedInEnabled,
+            addressEnabled
+          )
         }
       />
       <div className="horizontalResume&UtilCont flex">

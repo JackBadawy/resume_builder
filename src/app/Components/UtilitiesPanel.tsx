@@ -6,7 +6,12 @@ import { useContactDetails } from "../Context/ContactDetailsContext";
 const UtilityPanel: React.FC = () => {
   const { sections, addSection, moveSectionUp, moveSectionDown } =
     useSections();
-  const { linkedInEnabled, setLinkedInEnabled } = useContactDetails();
+  const {
+    linkedInEnabled,
+    setLinkedInEnabled,
+    addressEnabled,
+    setAddressEnabled,
+  } = useContactDetails();
   const [newSectionPrompt, setNewSecPrompt] = useState<boolean>(false);
   const [newSubHeading, setNewSubHeading] = useState<string>("");
 
@@ -22,10 +27,6 @@ const UtilityPanel: React.FC = () => {
     }
   };
 
-  const handleLinkedInToggle = (enabled: boolean) => {
-    setLinkedInEnabled(enabled);
-  };
-
   return (
     <div className="utilContainer h-a4 p-4 flex flex-col gap-4">
       <div className="bg-slate-800 p-3 rounded-lg shadow-md">
@@ -37,7 +38,14 @@ const UtilityPanel: React.FC = () => {
             <span>LinkedIn</span>
             <ToggleSwitch
               enabled={linkedInEnabled}
-              setEnabled={handleLinkedInToggle}
+              setEnabled={setLinkedInEnabled}
+            />
+          </li>
+          <li className="bg-slate-700 rounded p-1 flex justify-between items-center">
+            <span>Address</span>
+            <ToggleSwitch
+              enabled={addressEnabled}
+              setEnabled={setAddressEnabled}
             />
           </li>
         </ul>

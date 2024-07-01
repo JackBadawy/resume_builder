@@ -1,7 +1,7 @@
 import { useContactDetails } from "../Context/ContactDetailsContext";
 
 const ContactDetails: React.FC = () => {
-  const { contactDetails, setContactDetails, linkedInEnabled } =
+  const { contactDetails, setContactDetails, linkedInEnabled, addressEnabled } =
     useContactDetails();
 
   const handleChange = (
@@ -40,18 +40,20 @@ const ContactDetails: React.FC = () => {
           data-text
         />
       </label>
-      <label className="flex items-center text-word-11 font-aptos">
-        <span className="h-17p flex items-center">Address:</span>
-        <input
-          value={contactDetails.address}
-          onChange={(e) => handleChange(e, "address")}
-          placeholder="Click to Enter Address"
-          className="flex-grow text-word-11 font-aptos h-17p pl-1 focus:outline-none"
-          autoComplete="off"
-          id="contactDetail"
-          data-text
-        />
-      </label>
+      {addressEnabled && (
+        <label className="flex items-center text-word-11 font-aptos">
+          <span className="h-17p flex items-center">Address:</span>
+          <input
+            value={contactDetails.address}
+            onChange={(e) => handleChange(e, "address")}
+            placeholder="Click to Enter Address"
+            className="flex-grow text-word-11 font-aptos h-17p pl-1 focus:outline-none"
+            autoComplete="off"
+            id="contactDetail"
+            data-text
+          />
+        </label>
+      )}
       {linkedInEnabled && (
         <label className="flex items-center text-word-11 font-aptos">
           <span className="h-17p flex items-center">LinkedIn Profile:</span>

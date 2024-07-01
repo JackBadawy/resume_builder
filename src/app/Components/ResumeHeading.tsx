@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useResumeHeading } from "../Context/ResumeHeadingContext";
 
 const ResumeHeading: React.FC = () => {

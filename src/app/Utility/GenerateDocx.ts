@@ -4,7 +4,8 @@ import { saveAs } from "file-saver";
 export const generateDocx = async (
   resumeElement: HTMLDivElement,
   contactDetails: Record<string, string>,
-  linkedInEnabled: boolean
+  linkedInEnabled: boolean,
+  addressEnabled: boolean
 ) => {
   const elements = Array.from(resumeElement.querySelectorAll("[data-text]"));
 
@@ -27,16 +28,21 @@ export const generateDocx = async (
         }),
       ],
     }),
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: `Address: ${contactDetails.address}`,
-          size: 22,
-          font: "Aptos (body)",
-        }),
-      ],
-    }),
   ];
+
+  if (addressEnabled) {
+    contactParagraphs.push(
+      new Paragraph({
+        children: [
+          new TextRun({
+            text: `Address: ${contactDetails.address}`,
+            size: 22,
+            font: "Aptos (body)",
+          }),
+        ],
+      })
+    );
+  }
 
   if (linkedInEnabled) {
     contactParagraphs.push(

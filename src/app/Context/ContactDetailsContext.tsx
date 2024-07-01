@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   useContext,
   useState,
@@ -13,6 +13,8 @@ interface ContactDetailsContextProps {
   >;
   linkedInEnabled: boolean;
   setLinkedInEnabled: (enabled: boolean) => void;
+  addressEnabled: boolean;
+  setAddressEnabled: (enabled: boolean) => void;
 }
 
 const ContactDetailsContext = createContext<
@@ -36,11 +38,18 @@ export const ContactDetailsProvider: React.FC<{ children: ReactNode }> = ({
   const initialLinkedInEnabled =
     savedLinkedInEnabled !== null ? JSON.parse(savedLinkedInEnabled) : true;
 
+  const savedAddressEnabled = localStorage.getItem("addressEnabled");
+  const initialAddressEnabled =
+    savedAddressEnabled !== null ? JSON.parse(savedAddressEnabled) : true;
+
   const [contactDetails, setContactDetails] = useState<Record<string, string>>(
     initialContactDetails
   );
   const [linkedInEnabled, setLinkedInEnabled] = useState<boolean>(
     initialLinkedInEnabled
+  );
+  const [addressEnabled, setAddressEnabled] = useState<boolean>(
+    initialAddressEnabled
   );
 
   useEffect(() => {
@@ -51,6 +60,10 @@ export const ContactDetailsProvider: React.FC<{ children: ReactNode }> = ({
     localStorage.setItem("linkedInEnabled", JSON.stringify(linkedInEnabled));
   }, [linkedInEnabled]);
 
+  useEffect(() => {
+    localStorage.setItem("addressEnabled", JSON.stringify(addressEnabled));
+  }, [addressEnabled]);
+
   return (
     <ContactDetailsContext.Provider
       value={{
@@ -58,6 +71,8 @@ export const ContactDetailsProvider: React.FC<{ children: ReactNode }> = ({
         setContactDetails,
         linkedInEnabled,
         setLinkedInEnabled,
+        addressEnabled,
+        setAddressEnabled,
       }}
     >
       {children}
