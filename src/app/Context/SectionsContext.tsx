@@ -18,6 +18,7 @@ interface SectionsContextType {
   moveSectionUp: (index: number) => void;
   moveSectionDown: (index: number) => void;
   deleteSection: (index: number) => void;
+  resetSections: () => void;
 }
 
 const SectionsContext = createContext<SectionsContextType | undefined>(
@@ -76,6 +77,15 @@ export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
     setSections(newSections);
   };
 
+  const resetSections = () => {
+    setSections([
+      { heading: "About Me", text: "" },
+      { heading: "Work Experience", text: "" },
+      { heading: "Education", text: "" },
+      { heading: "References", text: "" },
+    ]);
+  };
+
   return (
     <SectionsContext.Provider
       value={{
@@ -85,6 +95,7 @@ export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
         moveSectionUp,
         moveSectionDown,
         deleteSection,
+        resetSections,
       }}
     >
       {children}
