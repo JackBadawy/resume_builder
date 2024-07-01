@@ -17,6 +17,7 @@ interface SectionsContextType {
   addSection: (sectionName: string) => void;
   moveSectionUp: (index: number) => void;
   moveSectionDown: (index: number) => void;
+  deleteSection: (index: number) => void;
 }
 
 const SectionsContext = createContext<SectionsContextType | undefined>(
@@ -70,6 +71,11 @@ export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  const deleteSection = (index: number) => {
+    const newSections = sections.filter((_, i) => i !== index);
+    setSections(newSections);
+  };
+
   return (
     <SectionsContext.Provider
       value={{
@@ -78,6 +84,7 @@ export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
         addSection,
         moveSectionUp,
         moveSectionDown,
+        deleteSection,
       }}
     >
       {children}

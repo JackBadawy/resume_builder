@@ -2,10 +2,17 @@ import { useState } from "react";
 import { useSections } from "../Context/SectionsContext";
 import ToggleSwitch from "./ToggleSwitch";
 import { useContactDetails } from "../Context/ContactDetailsContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const UtilityPanel: React.FC = () => {
-  const { sections, addSection, moveSectionUp, moveSectionDown } =
-    useSections();
+  const {
+    sections,
+    addSection,
+    moveSectionUp,
+    moveSectionDown,
+    deleteSection,
+  } = useSections();
   const {
     linkedInEnabled,
     setLinkedInEnabled,
@@ -64,17 +71,25 @@ const UtilityPanel: React.FC = () => {
               <span className="mr-1">{section.heading}</span>
               <div className="flex gap-1">
                 <button
-                  onClick={() => moveSectionUp(index)}
+                  onClick={() => deleteSection(index)}
                   className="bg-bws text-white px-2 rounded"
                 >
-                  ↑
+                  <FontAwesomeIcon icon={faTrash} />
                 </button>
-                <button
-                  onClick={() => moveSectionDown(index)}
-                  className="bg-bws text-white px-2 rounded"
-                >
-                  ↓
-                </button>
+                <div className="flex flex-col gap-1">
+                  <button
+                    onClick={() => moveSectionUp(index)}
+                    className="bg-bws text-white px-2 rounded"
+                  >
+                    ↑
+                  </button>
+                  <button
+                    onClick={() => moveSectionDown(index)}
+                    className="bg-bws text-white px-2 rounded"
+                  >
+                    ↓
+                  </button>
+                </div>
               </div>
             </li>
           ))}
