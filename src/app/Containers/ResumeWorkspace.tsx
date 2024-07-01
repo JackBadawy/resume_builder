@@ -1,3 +1,4 @@
+"use client";
 import { useRef } from "react";
 import jsPDF from "jspdf";
 import { generateDocx } from "../Utility/GenerateDocx";

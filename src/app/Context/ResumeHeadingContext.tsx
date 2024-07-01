@@ -1,3 +1,4 @@
+"use client";
 import {
   createContext,
   useState,
@@ -21,21 +22,31 @@ export const ResumeHeadingProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [fullName, setFullName] = useState<string>(() => {
-    const savedFullName = localStorage.getItem("fullName");
-    return savedFullName || "";
+    if (typeof window !== "undefined") {
+      const savedFullName = localStorage.getItem("fullName");
+      return savedFullName || "";
+    }
+    return "";
   });
 
   const [jobTitle, setJobTitle] = useState<string>(() => {
-    const savedJobTitle = localStorage.getItem("jobTitle");
-    return savedJobTitle || "";
+    if (typeof window !== "undefined") {
+      const savedJobTitle = localStorage.getItem("jobTitle");
+      return savedJobTitle || "";
+    }
+    return "";
   });
 
   useEffect(() => {
-    localStorage.setItem("fullName", fullName);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("fullName", fullName);
+    }
   }, [fullName]);
 
   useEffect(() => {
-    localStorage.setItem("jobTitle", jobTitle);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("jobTitle", jobTitle);
+    }
   }, [jobTitle]);
 
   return (

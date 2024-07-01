@@ -1,3 +1,4 @@
+"use client";
 import { ContactDetailsProvider } from "./ContactDetailsContext";
 import { ResumeHeadingProvider } from "./ResumeHeadingContext";
 import { SectionsProvider } from "./SectionsContext";

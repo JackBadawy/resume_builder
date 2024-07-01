@@ -1,4 +1,5 @@
-import {
+"use client";
+import React, {
   createContext,
   useContext,
   useState,
@@ -24,44 +25,50 @@ const ContactDetailsContext = createContext<
 export const ContactDetailsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const savedContactDetails = localStorage.getItem("contactDetails");
-  const initialContactDetails = savedContactDetails
-    ? JSON.parse(savedContactDetails)
-    : {
-        email: "",
-        phone: "",
-        address: "",
-        linkedin: "",
-      };
-
-  const savedLinkedInEnabled = localStorage.getItem("linkedInEnabled");
-  const initialLinkedInEnabled =
-    savedLinkedInEnabled !== null ? JSON.parse(savedLinkedInEnabled) : true;
-
-  const savedAddressEnabled = localStorage.getItem("addressEnabled");
-  const initialAddressEnabled =
-    savedAddressEnabled !== null ? JSON.parse(savedAddressEnabled) : true;
-
-  const [contactDetails, setContactDetails] = useState<Record<string, string>>(
-    initialContactDetails
-  );
-  const [linkedInEnabled, setLinkedInEnabled] = useState<boolean>(
-    initialLinkedInEnabled
-  );
-  const [addressEnabled, setAddressEnabled] = useState<boolean>(
-    initialAddressEnabled
-  );
+  const [contactDetails, setContactDetails] = useState<Record<string, string>>({
+    email: "",
+    phone: "",
+    address: "",
+    linkedin: "",
+  });
+  const [linkedInEnabled, setLinkedInEnabled] = useState<boolean>(true);
+  const [addressEnabled, setAddressEnabled] = useState<boolean>(true);
 
   useEffect(() => {
-    localStorage.setItem("contactDetails", JSON.stringify(contactDetails));
+    if (typeof window !== "undefined") {
+      const savedContactDetails = localStorage.getItem("contactDetails");
+      if (savedContactDetails) {
+        setContactDetails(JSON.parse(savedContactDetails));
+      }
+
+      const savedLinkedInEnabled = localStorage.getItem("linkedInEnabled");
+      if (savedLinkedInEnabled !== null) {
+        setLinkedInEnabled(JSON.parse(savedLinkedInEnabled));
+      }
+
+      const savedAddressEnabled = localStorage.getItem("addressEnabled");
+      if (savedAddressEnabled !== null) {
+        setAddressEnabled(JSON.parse(savedAddressEnabled));
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("contactDetails", JSON.stringify(contactDetails));
+    }
   }, [contactDetails]);
 
   useEffect(() => {
-    localStorage.setItem("linkedInEnabled", JSON.stringify(linkedInEnabled));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("linkedInEnabled", JSON.stringify(linkedInEnabled));
+    }
   }, [linkedInEnabled]);
 
   useEffect(() => {
-    localStorage.setItem("addressEnabled", JSON.stringify(addressEnabled));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("addressEnabled", JSON.stringify(addressEnabled));
+    }
   }, [addressEnabled]);
 
   return (

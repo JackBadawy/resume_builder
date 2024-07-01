@@ -1,4 +1,5 @@
-import {
+"use client";
+import React, {
   createContext,
   useState,
   useContext,
@@ -28,22 +29,26 @@ const SectionsContext = createContext<SectionsContextType | undefined>(
 export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const initialSections = () => {
-    const savedSections = localStorage.getItem("sections");
-    return savedSections
-      ? JSON.parse(savedSections)
-      : [
-          { heading: "About Me", text: "" },
-          { heading: "Work Experience", text: "" },
-          { heading: "Education", text: "" },
-          { heading: "References", text: "" },
-        ];
-  };
-
-  const [sections, setSections] = useState<Section[]>(initialSections);
+  const [sections, setSections] = useState<Section[]>([
+    { heading: "About Me", text: "" },
+    { heading: "Work Experience", text: "" },
+    { heading: "Education", text: "" },
+    { heading: "References", text: "" },
+  ]);
 
   useEffect(() => {
-    localStorage.setItem("sections", JSON.stringify(sections));
+    if (typeof window !== "undefined") {
+      const savedSections = localStorage.getItem("sections");
+      if (savedSections) {
+        setSections(JSON.parse(savedSections));
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("sections", JSON.stringify(sections));
+    }
   }, [sections]);
 
   const addSection = (sectionName: string) => {
