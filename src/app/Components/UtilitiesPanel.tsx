@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useSections } from "../Context/SectionsContext";
 import ToggleSwitch from "./ToggleSwitch";
+import { useContactDetails } from "../Context/ContactDetailsContext";
 
 const UtilityPanel: React.FC = () => {
   const { sections, addSection, moveSectionUp, moveSectionDown } =
     useSections();
+  const { linkedInEnabled, setLinkedInEnabled } = useContactDetails();
   const [newSectionPrompt, setNewSecPrompt] = useState<boolean>(false);
   const [newSubHeading, setNewSubHeading] = useState<string>("");
-  const [linkedInEnabled, setLinkedInEnabled] = useState<boolean>(true);
 
   const handleNewSecChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewSubHeading(e.target.value);
@@ -21,6 +22,10 @@ const UtilityPanel: React.FC = () => {
     }
   };
 
+  const handleLinkedInToggle = (enabled: boolean) => {
+    setLinkedInEnabled(enabled);
+  };
+
   return (
     <div className="utilContainer h-a4 p-4 flex flex-col gap-4">
       <div className="bg-slate-800 p-3 rounded-lg shadow-md">
@@ -29,10 +34,10 @@ const UtilityPanel: React.FC = () => {
         </h2>
         <ul className="flex flex-col gap-2 mt-2">
           <li className="bg-slate-700 rounded p-1 flex justify-between items-center">
-            <span className="mr-1">LinkedIn</span>
+            <span>LinkedIn</span>
             <ToggleSwitch
               enabled={linkedInEnabled}
-              setEnabled={setLinkedInEnabled}
+              setEnabled={handleLinkedInToggle}
             />
           </li>
         </ul>

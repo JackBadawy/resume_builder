@@ -7,17 +7,12 @@ import UtilityPanel from "../Components/UtilitiesPanel";
 import GenerateButtons from "../Components/GenerateButtons";
 import ResumeHeading from "../Components/ResumeHeading";
 import ContactDetails from "../Components/ContactDetails";
+import { useContactDetails } from "../Context/ContactDetailsContext";
 
 const ResumeWorkspace: React.FC = () => {
   const resumeRef = useRef<HTMLDivElement>(null);
   const { sections } = useSections();
-  const [contactDetails, setContactDetails] = useState<Record<string, string>>(
-    {}
-  );
-
-  const handleContactDetailsUpdate = (details: Record<string, string>) => {
-    setContactDetails(details);
-  };
+  const { contactDetails, linkedInEnabled } = useContactDetails();
 
   const generatePDF = () => {
     const pdf = new jsPDF({
@@ -44,7 +39,8 @@ const ResumeWorkspace: React.FC = () => {
       <GenerateButtons
         generatePDF={generatePDF}
         generateDocx={() =>
-          resumeRef.current && generateDocx(resumeRef.current, contactDetails)
+          resumeRef.current &&
+          generateDocx(resumeRef.current, contactDetails, linkedInEnabled)
         }
       />
       <div className="horizontalResume&UtilCont flex">
@@ -54,7 +50,7 @@ const ResumeWorkspace: React.FC = () => {
           className="resumePreview h-a4 w-a4 border-2 border-amber-500 bg-white p4 p-msmargin"
         >
           <ResumeHeading />
-          <ContactDetails onUpdate={handleContactDetailsUpdate} />
+          <ContactDetails />
           <div className="flex flex-col" id="sectionsContainer">
             {sections.map((section, index) => (
               <Section

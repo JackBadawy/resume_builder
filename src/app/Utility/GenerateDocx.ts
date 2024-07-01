@@ -3,7 +3,8 @@ import { saveAs } from "file-saver";
 
 export const generateDocx = async (
   resumeElement: HTMLDivElement,
-  contactDetails: Record<string, string>
+  contactDetails: Record<string, string>,
+  linkedInEnabled: boolean
 ) => {
   const elements = Array.from(resumeElement.querySelectorAll("[data-text]"));
 
@@ -35,16 +36,21 @@ export const generateDocx = async (
         }),
       ],
     }),
-    new Paragraph({
-      children: [
-        new TextRun({
-          text: `LinkedIn Profile: ${contactDetails.linkedin}`,
-          size: 22,
-          font: "Aptos (body)",
-        }),
-      ],
-    }),
   ];
+
+  if (linkedInEnabled) {
+    contactParagraphs.push(
+      new Paragraph({
+        children: [
+          new TextRun({
+            text: `LinkedIn Profile: ${contactDetails.linkedin}`,
+            size: 22,
+            font: "Aptos (body)",
+          }),
+        ],
+      })
+    );
+  }
 
   const horizontalLineParagraph = new Paragraph({
     border: {
