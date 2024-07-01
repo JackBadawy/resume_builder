@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useContactDetails } from "../Context/ContactDetailsContext";
 
 const ContactDetails: React.FC = () => {
