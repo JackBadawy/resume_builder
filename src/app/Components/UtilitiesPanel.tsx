@@ -39,12 +39,14 @@ const UtilityPanel: React.FC = () => {
     }
   };
 
+  const handleCancel = () => {
+    setNewSecPrompt(false);
+  };
+
   return (
     <div className="utilContainer h-a4 p-4 flex flex-col gap-4">
       <div className="bg-slate-800 p-3 rounded-lg shadow-md">
-        <h2 className="underline text-white text-lg font-semibold">
-          Contact Details:
-        </h2>
+        <h2 className="text-white text-lg font-semibold ">Contact Details:</h2>
         <ul className="flex flex-col gap-2 mt-2">
           <li className="bg-slate-700 rounded p-1 flex justify-between items-center">
             <span>LinkedIn</span>
@@ -63,10 +65,8 @@ const UtilityPanel: React.FC = () => {
         </ul>
       </div>
 
-      <div className="bg-slate-800 p-3 rounded-lg shadow-md">
-        <h2 className="underline text-white text-lg font-semibold">
-          Sections:
-        </h2>
+      <div className="bg-slate-800 p-3 rounded-lg shadow-md w-60">
+        <h2 className="text-white text-lg font-semibold">Sections:</h2>
 
         <ul className="flex flex-col gap-2 mt-2">
           {sections.map((section, index) => (
@@ -99,38 +99,49 @@ const UtilityPanel: React.FC = () => {
               </div>
             </li>
           ))}
-          <button
-            onClick={resetSections}
-            className="mt-4 px-4 py-2 bg-bws text-white rounded"
-          >
-            Reset Sections
-          </button>
+          <li>
+            {newSectionPrompt === false ? (
+              <button
+                onClick={() => setNewSecPrompt(true)}
+                className="mb-4 mt-4 px-4 py-2 bg-bws text-white rounded w-full"
+              >
+                Add Section
+              </button>
+            ) : (
+              <div className="flex flex-col gap-2">
+                <input
+                  onChange={handleNewSecChange}
+                  value={newSubHeading}
+                  className="bg-slate-700 text-white outline-none p-1 rounded"
+                  placeholder="New Section Name..."
+                />
+                <div className="flex justify-between">
+                  <button
+                    className="mb-4 px-4 py-2 bg-bws text-white rounded"
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleAddSection}
+                    className="mb-4 px-4 py-2 bg-bws text-white rounded"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            )}
+          </li>
+          <li>
+            <button
+              onClick={resetSections}
+              className="mt-4 px-4 py-2 bg-bws text-white rounded w-full"
+            >
+              Reset Sections
+            </button>
+          </li>
         </ul>
       </div>
-
-      {newSectionPrompt === false ? (
-        <button
-          onClick={() => setNewSecPrompt(true)}
-          className="mb-4 px-4 py-2 bg-bws text-white rounded"
-        >
-          Add Section
-        </button>
-      ) : (
-        <div className="flex gap-2">
-          <input
-            onChange={handleNewSecChange}
-            value={newSubHeading}
-            className="text-black"
-            placeholder="New Section Name..."
-          />
-          <button
-            onClick={handleAddSection}
-            className="mb-4 px-4 py-2 bg-bws text-white rounded"
-          >
-            Submit
-          </button>
-        </div>
-      )}
     </div>
   );
 };
