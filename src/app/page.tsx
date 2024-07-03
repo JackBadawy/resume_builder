@@ -6,10 +6,8 @@ import Providers from "./Context/Providers";
 export default function Home() {
   return (
     <Providers>
-      <div>
-        <HeaderComp title="Resume Builder" />
-        <ResumeWorkspace />
-      </div>
+      <HeaderComp title="Resume Builder" />
+      <ResumeWorkspace />
     </Providers>
   );
 }
