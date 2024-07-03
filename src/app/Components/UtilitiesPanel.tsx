@@ -8,6 +8,7 @@ import {
   faArrowUp,
   faArrowDown,
 } from "@fortawesome/free-solid-svg-icons";
+import AlertModal from "./AlertModal";
 
 const UtilityPanel: React.FC = () => {
   const {
@@ -26,6 +27,9 @@ const UtilityPanel: React.FC = () => {
   } = useContactDetails();
   const [newSectionPrompt, setNewSecPrompt] = useState<boolean>(false);
   const [newSubHeading, setNewSubHeading] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>("");
+  const [modalAction, setModalAction] = useState<() => void>(() => {});
 
   const handleNewSecChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewSubHeading(e.target.value);
@@ -43,10 +47,28 @@ const UtilityPanel: React.FC = () => {
     setNewSecPrompt(false);
   };
 
+  const handleDelete = (index: number) => {
+    setModalMessage("Are you sure you want to delete this section?");
+    setModalAction(() => () => {
+      deleteSection(index);
+      setIsModalOpen(false);
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleReset = () => {
+    setModalMessage("Are you sure you want to reset all sections?");
+    setModalAction(() => () => {
+      resetSections();
+      setIsModalOpen(false);
+    });
+    setIsModalOpen(true);
+  };
+
   return (
     <div className="utilContainer h-a4 p-4 flex flex-col gap-4">
       <div className="bg-slate-800 p-3 rounded-lg shadow-md">
-        <h2 className="text-white text-lg font-semibold ">Contact Details:</h2>
+        <h2 className="text-white text-lg font-semibold">Contact Details:</h2>
         <ul className="flex flex-col gap-2 mt-2">
           <li className="bg-slate-700 rounded p-1 flex justify-between items-center">
             <span>LinkedIn</span>
@@ -77,7 +99,7 @@ const UtilityPanel: React.FC = () => {
               <span className="mr-1">{section.heading}</span>
               <div className="flex gap-1">
                 <button
-                  onClick={() => deleteSection(index)}
+                  onClick={() => handleDelete(index)}
                   className="bg-bws text-white px-2 rounded"
                 >
                   <FontAwesomeIcon icon={faTrash} />
@@ -117,7 +139,7 @@ const UtilityPanel: React.FC = () => {
                 />
                 <div className="flex justify-between">
                   <button
-                    className="mb-4 px-4 py-2 bg-bws text-white rounded"
+                    className="mb-4 px-4 py-2 bg-gray-600 text-white rounded"
                     onClick={handleCancel}
                   >
                     Cancel
@@ -134,7 +156,7 @@ const UtilityPanel: React.FC = () => {
           </li>
           <li>
             <button
-              onClick={resetSections}
+              onClick={handleReset}
               className="mt-4 px-4 py-2 bg-bws text-white rounded w-full"
             >
               Reset Sections
@@ -142,6 +164,13 @@ const UtilityPanel: React.FC = () => {
           </li>
         </ul>
       </div>
+
+      <AlertModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={modalAction}
+        message={modalMessage}
+      />
     </div>
   );
 };
