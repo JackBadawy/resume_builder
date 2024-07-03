@@ -9,15 +9,15 @@ const GenerateButtons: React.FC<GenerateButtonsProps> = ({
 }) => {
   return (
     <>
-      <button
+      {/* <button
         onClick={generatePDF}
         className="mb-4 px-4 py-2 bg-blue-500 text-white rounded"
       >
         Generate PDF
-      </button>
+      </button> */}
       <button
         onClick={generateDocx}
-        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded"
+        className="mb-4 mt-4 px-4 py-2 bg-bws text-white rounded"
       >
         Generate Word Doc
       </button>
