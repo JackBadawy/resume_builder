@@ -73,24 +73,25 @@ export const generateDocx = async (
     (element) => !(element as HTMLInputElement).id.includes("contactDetail")
   );
 
-  const children = filteredElements
+  const contentParagraphs = filteredElements
     .map((element) => {
       const htmlElement = element as HTMLElement;
       let textContent =
         (htmlElement as HTMLTextAreaElement).value || htmlElement.innerText;
 
       if (htmlElement.tagName.toLowerCase() === "textarea") {
+        const textRuns = textContent.split("\n").map((line, index, array) => [
+          new TextRun({
+            text: line,
+            size: 22,
+            font: "Aptos (body)",
+          }),
+          index < array.length - 1 ? new TextRun({ break: 1 }) : undefined,
+        ]);
         return new Paragraph({
-          children: [
-            new TextRun({
-              text: textContent,
-              size: 22,
-              font: "Aptos (body)",
-            }),
-            new TextRun({
-              break: 1,
-            }),
-          ],
+          children: textRuns
+            .flat()
+            .filter((run) => run !== undefined) as TextRun[],
         });
       } else if (htmlElement.tagName.toLowerCase() === "span") {
         return new Paragraph({
@@ -157,10 +158,10 @@ export const generateDocx = async (
     .flat();
 
   const docChildren = [
-    ...children.slice(0, 3),
+    ...contentParagraphs.slice(0, 3),
     ...contactParagraphs,
     horizontalLineParagraph,
-    ...children.slice(3),
+    ...contentParagraphs.slice(3),
   ];
 
   const doc = new Document({
