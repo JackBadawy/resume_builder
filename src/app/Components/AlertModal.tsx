@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useFileContext } from "../Context/FileContext";
+import DynamicWidthInput from "./DynamicWidthInput";
 
 interface ModalProps {
   isOpen: boolean;
@@ -34,8 +35,8 @@ const AlertModal: React.FC<ModalProps> = ({
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLocalFileName(e.target.value);
+  const handleInputChange = (value: string) => {
+    setLocalFileName(value);
   };
 
   return (
@@ -46,12 +47,18 @@ const AlertModal: React.FC<ModalProps> = ({
           <p className="mb-1">{message}</p>
         </div>
         {fileName !== undefined && (
-          <input
-            type="text"
-            value={localFileName}
-            onChange={handleInputChange}
-            className="w-full bg-gray-700 p-2 rounded mb-4 text-white"
-          />
+          <div className="flex justify-center mb-4">
+            <DynamicWidthInput
+              value={localFileName}
+              onChange={handleInputChange}
+              placeholder=""
+              className="bg-gray-700 text-white"
+            />
+
+            <p className="p-2 pl-1 rounded text-center min-w-[1px] outline-none">
+              .docx & pdf
+            </p>
+          </div>
         )}
         <div className="flex justify-end gap-4">
           <button className="px-4 py-2 bg-gray-600 rounded" onClick={onClose}>
