@@ -1,11 +1,11 @@
 interface GenerateButtonsProps {
   generatePDF: () => void;
-  generateDocx: () => void;
+  docxFunc: () => void;
 }
 
 const GenerateButtons: React.FC<GenerateButtonsProps> = ({
   generatePDF,
-  generateDocx,
+  docxFunc,
 }) => {
   return (
     <>
@@ -16,7 +16,7 @@ const GenerateButtons: React.FC<GenerateButtonsProps> = ({
         Generate PDF
       </button> */}
       <button
-        onClick={generateDocx}
+        onClick={docxFunc}
         className="mb-4 mt-4 px-4 py-2 bg-bws text-white rounded"
       >
         Generate Word Doc

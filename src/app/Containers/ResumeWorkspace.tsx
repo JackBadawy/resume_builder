@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import jsPDF from "jspdf";
 import { generateDocx } from "../Utility/GenerateDocx";
 import Section from "../Components/ResumeSection";
@@ -9,12 +9,16 @@ import GenerateButtons from "../Components/GenerateButtons";
 import ResumeHeading from "../Components/ResumeHeading";
 import ContactDetails from "../Components/ContactDetails";
 import { useContactDetails } from "../Context/ContactDetailsContext";
+import { useFileContext } from "../Context/FileContext";
+import AlertModal from "../Components/AlertModal";
 
 const ResumeWorkspace: React.FC = () => {
   const resumeRef = useRef<HTMLDivElement>(null);
   const { sections } = useSections();
   const { contactDetails, linkedInEnabled, addressEnabled } =
     useContactDetails();
+  const { fileName, setFileName } = useFileContext();
+  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
 
   const generatePDF = () => {
     const pdf = new jsPDF({
@@ -36,19 +40,29 @@ const ResumeWorkspace: React.FC = () => {
     }
   };
 
+  const handleGenerateDocx = () => {
+    setIsSaveModalOpen(true);
+  };
+
+  const handleSaveConfirm = async (fileName?: string) => {
+    if (resumeRef.current && fileName) {
+      await generateDocx(
+        resumeRef.current,
+        contactDetails,
+        linkedInEnabled,
+        addressEnabled,
+        fileName
+      );
+      setFileName(fileName);
+      setIsSaveModalOpen(false);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center">
       <GenerateButtons
         generatePDF={generatePDF}
-        generateDocx={() =>
-          resumeRef.current &&
-          generateDocx(
-            resumeRef.current,
-            contactDetails,
-            linkedInEnabled,
-            addressEnabled
-          )
-        }
+        docxFunc={handleGenerateDocx}
       />
       <div className="horizontalResume&UtilCont flex">
         <UtilityPanel />
@@ -69,6 +83,13 @@ const ResumeWorkspace: React.FC = () => {
           </div>
         </div>
       </div>
+      <AlertModal
+        isOpen={isSaveModalOpen}
+        onClose={() => setIsSaveModalOpen(false)}
+        onConfirm={handleSaveConfirm}
+        message="Please enter the filename for your resume."
+        fileName={fileName}
+      />
     </div>
   );
 };

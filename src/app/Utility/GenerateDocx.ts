@@ -5,7 +5,8 @@ export const generateDocx = async (
   resumeElement: HTMLDivElement,
   contactDetails: Record<string, string>,
   linkedInEnabled: boolean,
-  addressEnabled: boolean
+  addressEnabled: boolean,
+  fileName: string
 ) => {
   const elements = Array.from(resumeElement.querySelectorAll("[data-text]"));
 
@@ -174,5 +175,5 @@ export const generateDocx = async (
   });
 
   const blob = await Packer.toBlob(doc);
-  saveAs(blob, "resume.docx");
+  saveAs(blob, `${fileName}.docx`);
 };
