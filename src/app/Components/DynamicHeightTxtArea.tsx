@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useRef, useMemo, useCallback, useLayoutEffect } from "react";
 import { useSections } from "../Context/SectionsContext";
-
+import debounce from "lodash/debounce";
 interface DynamicHeightTextareaProps {
   index: number;
 }
@@ -10,26 +10,34 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
 }) => {
   const { sections, setSections } = useSections();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const textValue = sections[index].text;
+  const textValue = useMemo(() => sections[index].text, [sections, index]);
 
-  useEffect(() => {
-    adjustTextareaHeight();
-  }, [textValue]);
-
-  const adjustTextareaHeight = () => {
+  const adjustTextareaHeight = useCallback(() => {
     const textarea = textareaRef.current;
     if (textarea) {
       textarea.style.height = "auto";
       textarea.style.height = `${textarea.scrollHeight}px`;
     }
-  };
+  }, []);
 
-  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newSections = [...sections];
-    newSections[index].text = e.target.value;
-    setSections(newSections);
+  const debouncedAdjustHeight = useMemo(
+    () => debounce(adjustTextareaHeight, 100),
+    [adjustTextareaHeight]
+  );
+
+  useLayoutEffect(() => {
     adjustTextareaHeight();
-  };
+  }, [textValue, adjustTextareaHeight]);
+
+  const handleTextChange = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const newSections = [...sections];
+      newSections[index].text = e.target.value;
+      setSections(newSections);
+      debouncedAdjustHeight();
+    },
+    [sections, index, setSections, debouncedAdjustHeight]
+  );
 
   return (
     <textarea
@@ -38,7 +46,7 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
       placeholder="Enter text here..."
       rows={1}
       onChange={handleTextChange}
-      value={sections[index].text}
+      value={textValue}
       style={{ height: "auto" }}
       data-text
     />

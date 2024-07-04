@@ -1,5 +1,5 @@
 "use client";
-import React, {
+import {
   createContext,
   useContext,
   useState,
@@ -16,6 +16,7 @@ interface ContactDetailsContextProps {
   setLinkedInEnabled: (enabled: boolean) => void;
   addressEnabled: boolean;
   setAddressEnabled: (enabled: boolean) => void;
+  isLoading: boolean;
 }
 
 const ContactDetailsContext = createContext<
@@ -25,51 +26,41 @@ const ContactDetailsContext = createContext<
 export const ContactDetailsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [contactDetails, setContactDetails] = useState<Record<string, string>>({
-    email: "",
-    phone: "",
-    address: "",
-    linkedin: "",
-  });
-  const [linkedInEnabled, setLinkedInEnabled] = useState<boolean>(true);
-  const [addressEnabled, setAddressEnabled] = useState<boolean>(true);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedContactDetails = localStorage.getItem("contactDetails");
-      if (savedContactDetails) {
-        setContactDetails(JSON.parse(savedContactDetails));
+  const [isLoading, setIsLoading] = useState(true);
+  const [contactDetails, setContactDetails] = useState<Record<string, string>>(
+    () => {
+      if (typeof window !== "undefined") {
+        const saved = localStorage.getItem("contactDetails");
+        return saved
+          ? JSON.parse(saved)
+          : { email: "", phone: "", address: "", linkedin: "" };
       }
-
-      const savedLinkedInEnabled = localStorage.getItem("linkedInEnabled");
-      if (savedLinkedInEnabled !== null) {
-        setLinkedInEnabled(JSON.parse(savedLinkedInEnabled));
-      }
-
-      const savedAddressEnabled = localStorage.getItem("addressEnabled");
-      if (savedAddressEnabled !== null) {
-        setAddressEnabled(JSON.parse(savedAddressEnabled));
-      }
+      return { email: "", phone: "", address: "", linkedin: "" };
     }
-  }, []);
+  );
+  const [linkedInEnabled, setLinkedInEnabled] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("linkedInEnabled");
+      return saved ? JSON.parse(saved) : true;
+    }
+    return true;
+  });
+  const [addressEnabled, setAddressEnabled] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("addressEnabled");
+      return saved ? JSON.parse(saved) : true;
+    }
+    return true;
+  });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("contactDetails", JSON.stringify(contactDetails));
-    }
-  }, [contactDetails]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
       localStorage.setItem("linkedInEnabled", JSON.stringify(linkedInEnabled));
-    }
-  }, [linkedInEnabled]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
       localStorage.setItem("addressEnabled", JSON.stringify(addressEnabled));
+      setIsLoading(false);
     }
-  }, [addressEnabled]);
+  }, [contactDetails, linkedInEnabled, addressEnabled]);
 
   return (
     <ContactDetailsContext.Provider
@@ -80,6 +71,7 @@ export const ContactDetailsProvider: React.FC<{ children: ReactNode }> = ({
         setLinkedInEnabled,
         addressEnabled,
         setAddressEnabled,
+        isLoading,
       }}
     >
       {children}

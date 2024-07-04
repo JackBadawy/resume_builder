@@ -9,6 +9,7 @@ import {
   faArrowDown,
 } from "@fortawesome/free-solid-svg-icons";
 import AlertModal from "./AlertModal";
+import { useResumeHeading } from "../Context/ResumeHeadingContext";
 
 const UtilityPanel: React.FC = () => {
   const {
@@ -18,6 +19,7 @@ const UtilityPanel: React.FC = () => {
     moveSectionDown,
     deleteSection,
     resetSections,
+    isLoading: sectionsLoading,
   } = useSections();
   const {
     linkedInEnabled,
@@ -30,6 +32,9 @@ const UtilityPanel: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>("");
   const [modalAction, setModalAction] = useState<() => void>(() => {});
+
+  const { contactDetails, isLoading } = useContactDetails();
+  const { fullName, jobTitle, isLoading: headingLoading } = useResumeHeading();
 
   const handleNewSecChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewSubHeading(e.target.value);
@@ -65,6 +70,10 @@ const UtilityPanel: React.FC = () => {
     setIsModalOpen(true);
   };
 
+  /* if (isLoading || headingLoading || sectionsLoading) {
+    return <div>Loading...</div>;
+  } */
+
   return (
     <div className="utilContainer h-a4 p-4 flex flex-col gap-4">
       <div className="bg-slate-800 p-3 rounded-lg shadow-md">
@@ -91,36 +100,42 @@ const UtilityPanel: React.FC = () => {
         <h2 className="text-white text-lg font-semibold">Sections:</h2>
 
         <ul className="flex flex-col gap-2 mt-2">
-          {sections.map((section, index) => (
-            <li
-              key={index}
-              className="bg-slate-700 rounded p-1 flex justify-between items-center"
-            >
-              <span className="mr-1">{section.heading}</span>
-              <div className="flex gap-1">
-                <button
-                  onClick={() => handleDelete(index)}
-                  className="bg-bws text-white px-2 rounded"
-                >
-                  <FontAwesomeIcon icon={faTrash} />
-                </button>
-                <div className="flex flex-col gap-1">
+          {!isLoading ? (
+            sections.map((section, index) => (
+              <li
+                key={index}
+                className="bg-slate-700 rounded p-1 flex justify-between items-center"
+              >
+                <span className="mr-1">{section.heading}</span>
+                <div className="flex gap-1">
                   <button
-                    onClick={() => moveSectionUp(index)}
+                    onClick={() => handleDelete(index)}
                     className="bg-bws text-white px-2 rounded"
                   >
-                    <FontAwesomeIcon icon={faArrowUp} />
+                    <FontAwesomeIcon icon={faTrash} />
                   </button>
-                  <button
-                    onClick={() => moveSectionDown(index)}
-                    className="bg-bws text-white px-2 rounded"
-                  >
-                    <FontAwesomeIcon icon={faArrowDown} />
-                  </button>
+                  <div className="flex flex-col gap-1">
+                    <button
+                      onClick={() => moveSectionUp(index)}
+                      className="bg-bws text-white px-2 rounded"
+                    >
+                      <FontAwesomeIcon icon={faArrowUp} />
+                    </button>
+                    <button
+                      onClick={() => moveSectionDown(index)}
+                      className="bg-bws text-white px-2 rounded"
+                    >
+                      <FontAwesomeIcon icon={faArrowDown} />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </li>
-          ))}
+              </li>
+            ))
+          ) : (
+            <div className="bg-slate-700 rounded p-1 text-center">
+              Loading...
+            </div>
+          )}
           <li>
             {newSectionPrompt === false ? (
               <button

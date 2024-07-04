@@ -12,6 +12,7 @@ interface ResumeHeadingContextProps {
   setFullName: React.Dispatch<React.SetStateAction<string>>;
   jobTitle: string;
   setJobTitle: React.Dispatch<React.SetStateAction<string>>;
+  isLoading: boolean;
 }
 
 const ResumeHeadingContext = createContext<
@@ -21,18 +22,17 @@ const ResumeHeadingContext = createContext<
 export const ResumeHeadingProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [fullName, setFullName] = useState<string>(() => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [fullName, setFullName] = useState(() => {
     if (typeof window !== "undefined") {
-      const savedFullName = localStorage.getItem("fullName");
-      return savedFullName || "";
+      return localStorage.getItem("fullName") || "";
     }
     return "";
   });
 
-  const [jobTitle, setJobTitle] = useState<string>(() => {
+  const [jobTitle, setJobTitle] = useState(() => {
     if (typeof window !== "undefined") {
-      const savedJobTitle = localStorage.getItem("jobTitle");
-      return savedJobTitle || "";
+      return localStorage.getItem("jobTitle") || "";
     }
     return "";
   });
@@ -40,18 +40,14 @@ export const ResumeHeadingProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("fullName", fullName);
-    }
-  }, [fullName]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
       localStorage.setItem("jobTitle", jobTitle);
+      setIsLoading(false);
     }
-  }, [jobTitle]);
+  }, [fullName, jobTitle]);
 
   return (
     <ResumeHeadingContext.Provider
-      value={{ fullName, setFullName, jobTitle, setJobTitle }}
+      value={{ fullName, setFullName, jobTitle, setJobTitle, isLoading }}
     >
       {children}
     </ResumeHeadingContext.Provider>

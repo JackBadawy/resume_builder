@@ -1,5 +1,5 @@
 "use client";
-import React, {
+import {
   createContext,
   useState,
   useContext,
@@ -20,34 +20,48 @@ interface SectionsContextType {
   moveSectionDown: (index: number) => void;
   deleteSection: (index: number) => void;
   resetSections: () => void;
+  isLoading: boolean;
 }
 
 const SectionsContext = createContext<SectionsContextType | undefined>(
   undefined
 );
 
+const defaultSections: Section[] = [
+  { heading: "About Me", text: "" },
+  { heading: "Work Experience", text: "" },
+  { heading: "Education", text: "" },
+  { heading: "References", text: "" },
+];
+
 export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [sections, setSections] = useState<Section[]>([
-    { heading: "About Me", text: "" },
-    { heading: "Work Experience", text: "" },
-    { heading: "Education", text: "" },
-    { heading: "References", text: "" },
-  ]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [sections, setSections] = useState<Section[]>(() => {
+    if (typeof window !== "undefined") {
+      const savedSections = localStorage.getItem("sections");
+      return savedSections ? JSON.parse(savedSections) : defaultSections;
+    }
+    return defaultSections;
+  });
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    const loadSections = () => {
       const savedSections = localStorage.getItem("sections");
       if (savedSections) {
         setSections(JSON.parse(savedSections));
       }
-    }
+      setIsLoading(false);
+    };
+
+    loadSections();
   }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("sections", JSON.stringify(sections));
+      setIsLoading(false);
     }
   }, [sections]);
 
@@ -83,12 +97,7 @@ export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const resetSections = () => {
-    setSections([
-      { heading: "About Me", text: "" },
-      { heading: "Work Experience", text: "" },
-      { heading: "Education", text: "" },
-      { heading: "References", text: "" },
-    ]);
+    setSections(defaultSections);
   };
 
   return (
@@ -101,6 +110,7 @@ export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
         moveSectionDown,
         deleteSection,
         resetSections,
+        isLoading,
       }}
     >
       {children}
