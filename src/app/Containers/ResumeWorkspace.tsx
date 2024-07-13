@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import jsPDF from "jspdf";
 import { generateDocx } from "../Utility/GenerateDocx";
 import Section from "../Components/ResumeSection";
@@ -11,10 +11,11 @@ import ContactDetails from "../Components/ContactDetails";
 import { useContactDetails } from "../Context/ContactDetailsContext";
 import { useFileContext } from "../Context/FileContext";
 import AlertModal from "../Components/AlertModal";
+import { useResumeContext } from "../Context/ResumeMetaContext";
 
 const ResumeWorkspace: React.FC = () => {
-  const resumeRef = useRef<HTMLDivElement>(null);
   const { sections } = useSections();
+  const { resumeRef, a4Ref } = useResumeContext();
   const { contactDetails, linkedInEnabled, addressEnabled } =
     useContactDetails();
   const { fileName, setFileName } = useFileContext();
@@ -67,19 +68,21 @@ const ResumeWorkspace: React.FC = () => {
       <div className="horizontalResume&UtilCont flex">
         <UtilityPanel />
         <div
-          ref={resumeRef}
-          className="resumePreview h-a4 w-a4 border-2 border-amber-500 bg-white p4 p-msmargin"
+          className="resumePreview h-a4 w-a4 border-2 border-amber-500 bg-white p-msmargin"
+          ref={a4Ref}
         >
-          <ResumeHeading />
-          <ContactDetails />
-          <div className="flex flex-col" id="sectionsContainer">
-            {sections.map((section, index) => (
-              <Section
-                key={index}
-                subHeadingText={section.heading}
-                index={index}
-              />
-            ))}
+          <div className="resumeheightreader" ref={resumeRef}>
+            <ResumeHeading />
+            <ContactDetails />
+            <div className="flex flex-col" id="sectionsContainer">
+              {sections.map((section, index) => (
+                <Section
+                  key={index}
+                  subHeadingText={section.heading}
+                  index={index}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -95,3 +98,6 @@ const ResumeWorkspace: React.FC = () => {
 };
 
 export default ResumeWorkspace;
+function useResume() {
+  throw new Error("Function not implemented.");
+}
