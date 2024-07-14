@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+"use client";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import { useSections } from "../Context/SectionsContext";
 import ToggleSwitch from "./ToggleSwitch";
 import { useContactDetails } from "../Context/ContactDetailsContext";
@@ -10,6 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import AlertModal from "./AlertModal";
 import { useResumeHeading } from "../Context/ResumeHeadingContext";
+import { useResumeContext } from "../Context/ResumeMetaContext";
 
 const UtilityPanel: React.FC = () => {
   const {
@@ -35,6 +37,7 @@ const UtilityPanel: React.FC = () => {
 
   const { contactDetails, isLoading } = useContactDetails();
   const { fullName, jobTitle, isLoading: headingLoading } = useResumeHeading();
+  const { heightMinusPadding, resumeRef, a4Ref } = useResumeContext();
 
   const handleNewSecChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewSubHeading(e.target.value);
@@ -42,9 +45,13 @@ const UtilityPanel: React.FC = () => {
 
   const handleAddSection = () => {
     if (newSubHeading.trim()) {
-      addSection(newSubHeading);
-      setNewSubHeading("");
-      setNewSecPrompt(false);
+      if (canAddNewSection()) {
+        addSection(newSubHeading);
+        setNewSubHeading("");
+        setNewSecPrompt(false);
+      } else {
+        alert("Adding this section will exceed the page height.");
+      }
     }
   };
 
@@ -70,9 +77,13 @@ const UtilityPanel: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  /* if (isLoading || headingLoading || sectionsLoading) {
-    return <div>Loading...</div>;
-  } */
+  const canAddNewSection = (): boolean => {
+    const currentHeight = resumeRef.current?.scrollHeight;
+    const newSectionHeightEstimate = 50;
+    const a4Height = heightMinusPadding;
+
+    return currentHeight + newSectionHeightEstimate <= a4Height;
+  };
 
   return (
     <div className="utilContainer h-a4 p-4 flex flex-col gap-4">

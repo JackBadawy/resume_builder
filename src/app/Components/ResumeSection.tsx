@@ -1,6 +1,8 @@
+"use client";
 import SubHeading from "./SubHeading";
 import DynamicHeightTxtArea from "./DynamicHeightTxtArea";
 import { useSections } from "../Context/SectionsContext";
+import { useEffect, useState } from "react";
 
 type SectionProps = {
   subHeadingText: string;
@@ -9,20 +11,29 @@ type SectionProps = {
 
 const Section: React.FC<SectionProps> = ({ subHeadingText, index }) => {
   const { isLoading } = useSections();
+  const [hydrated, setHydrated] = useState(false);
 
-  if (isLoading) {
-    return (
-      <div>
-        <SubHeading text="loading" />
-        <div className="text-black">Loading section...</div>
-      </div>
-    );
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  if (!hydrated) {
+    return null; // Render nothing until hydration is complete
   }
 
   return (
     <div>
-      <SubHeading text={subHeadingText} />
-      <DynamicHeightTxtArea index={index} />
+      {isLoading ? (
+        <div>
+          <SubHeading text="loading" />
+          <div className="text-black">Loading section...</div>
+        </div>
+      ) : (
+        <div>
+          <SubHeading text={subHeadingText} />
+          <DynamicHeightTxtArea index={index} />
+        </div>
+      )}
     </div>
   );
 };
