@@ -1,3 +1,4 @@
+"use client";
 import React, { RefObject, useEffect, useRef, useState } from "react";
 import { useSections } from "../Context/SectionsContext";
 import ToggleSwitch from "./ToggleSwitch";

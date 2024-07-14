@@ -98,6 +98,3 @@ const ResumeWorkspace: React.FC = () => {
 };
 
 export default ResumeWorkspace;
-function useResume() {
-  throw new Error("Function not implemented.");
-}

@@ -1,3 +1,4 @@
+"use client";
 import { useContactDetails } from "../Context/ContactDetailsContext";
 
 const ContactDetails: React.FC = () => {
