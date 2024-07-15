@@ -30,12 +30,12 @@ export const ResumeProvider: React.FC<{ children: ReactNode }> = ({
       const computedStyle = getComputedStyle(a4Ref.current);
       const paddingTop = parseFloat(computedStyle.paddingTop);
       const paddingBottom = parseFloat(computedStyle.paddingBottom);
-      console.log(paddingTop, paddingBottom);
+      // console.log(paddingTop, paddingBottom);
       setScrollHeight(resumeRef.current.scrollHeight);
       setHeightMinusPadding(
         a4Ref.current.clientHeight - paddingTop - paddingBottom
       );
-      console.log(heightMinusPadding);
+      //  console.log(heightMinusPadding);
     }
   }, [resumeRef, a4Ref, resumeRef.current?.scrollHeight]);
 
