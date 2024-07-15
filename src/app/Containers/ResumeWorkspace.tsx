@@ -68,7 +68,7 @@ const ResumeWorkspace: React.FC = () => {
       <div className="horizontalResume&UtilCont flex">
         <UtilityPanel />
         <div
-          className="resumePreview h-a4 w-a4   bg-white p-msmargin"
+          className="resumePreview h-a4 w-a4 shadow-2xl  bg-white p-msmargin"
           ref={a4Ref}
         >
           <div className="resumeheightreader" ref={resumeRef}>

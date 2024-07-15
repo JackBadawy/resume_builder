@@ -5,7 +5,7 @@ import DynamicWidthInput from "./DynamicWidthInput";
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: (fileName?: string) => void | Promise<void>;
+  onConfirm?: (fileName?: string) => void | Promise<void>;
   message: string;
   fileName?: string;
 }
@@ -27,10 +27,10 @@ const AlertModal: React.FC<ModalProps> = ({
   if (!isOpen) return null;
 
   const handleConfirm = () => {
-    if (fileName !== undefined) {
+    if (fileName !== undefined && onConfirm) {
       setFileName(localFileName);
       onConfirm(localFileName);
-    } else {
+    } else if (onConfirm) {
       onConfirm();
     }
   };
@@ -61,12 +61,22 @@ const AlertModal: React.FC<ModalProps> = ({
           </div>
         )}
         <div className="flex justify-end gap-4">
-          <button className="px-4 py-2 bg-gray-600 rounded" onClick={onClose}>
+          <button
+            className={`px-4 py-2 rounded ${
+              onConfirm ? "bg-gray-600" : "bg-bws"
+            }`}
+            onClick={onClose}
+          >
             Cancel
           </button>
-          <button className="px-4 py-2 bg-bws rounded" onClick={handleConfirm}>
-            Confirm
-          </button>
+          {onConfirm && (
+            <button
+              className="px-4 py-2 bg-bws rounded"
+              onClick={handleConfirm}
+            >
+              Confirm
+            </button>
+          )}
         </div>
       </div>
     </div>
