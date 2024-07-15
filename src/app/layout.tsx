@@ -19,7 +19,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="./img/icon.png" />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className="bg-cover bg-[url('./img/bgImg.jpg')]">{children}</body>
     </html>
   );
 }

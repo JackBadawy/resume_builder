@@ -81,7 +81,9 @@ const UtilityPanel: React.FC = () => {
     const currentHeight = resumeRef.current?.scrollHeight;
     const newSectionHeightEstimate = 50;
     const a4Height = heightMinusPadding;
-
+    if (!currentHeight) {
+      return false;
+    }
     return currentHeight + newSectionHeightEstimate <= a4Height;
   };
 

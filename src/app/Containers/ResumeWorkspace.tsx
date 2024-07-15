@@ -60,7 +60,7 @@ const ResumeWorkspace: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center mb-7">
       <GenerateButtons
         generatePDF={generatePDF}
         docxFunc={handleGenerateDocx}
@@ -68,7 +68,7 @@ const ResumeWorkspace: React.FC = () => {
       <div className="horizontalResume&UtilCont flex">
         <UtilityPanel />
         <div
-          className="resumePreview h-a4 w-a4 border-2 border-amber-500 bg-white p-msmargin"
+          className="resumePreview h-a4 w-a4   bg-white p-msmargin"
           ref={a4Ref}
         >
           <div className="resumeheightreader" ref={resumeRef}>

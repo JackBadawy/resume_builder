@@ -6,7 +6,11 @@ import Providers from "./Context/Providers";
 export default function Home() {
   return (
     <Providers>
-      <HeaderComp title="Resume Builder" />
+      <HeaderComp
+        acronym="FFF"
+        subheading="Recruitment"
+        fullAcronymName="Fake Fake Fake"
+      />
       <ResumeWorkspace />
     </Providers>
   );
