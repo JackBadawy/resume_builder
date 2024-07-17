@@ -18,7 +18,7 @@ const Section: React.FC<SectionProps> = ({ subHeadingText, index }) => {
   }, []);
 
   if (!hydrated) {
-    return null; // Render nothing until hydration is complete
+    return null;
   }
 
   return (

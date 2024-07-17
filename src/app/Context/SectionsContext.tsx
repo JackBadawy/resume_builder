@@ -7,6 +7,8 @@ import {
   ReactNode,
 } from "react";
 
+import { useModal } from "./ModalContext";
+
 interface Section {
   heading: string;
   text: string;
@@ -37,6 +39,7 @@ const defaultSections: Section[] = [
 export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const { closeModal } = useModal();
   const [isLoading, setIsLoading] = useState(true);
   const [sections, setSections] = useState<Section[]>(() => {
     if (typeof window !== "undefined") {
@@ -94,10 +97,12 @@ export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
   const deleteSection = (index: number) => {
     const newSections = sections.filter((_, i) => i !== index);
     setSections(newSections);
+    closeModal();
   };
 
   const resetSections = () => {
     setSections(defaultSections);
+    closeModal();
   };
 
   return (

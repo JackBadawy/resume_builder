@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import jsPDF from "jspdf";
 import { generateDocx } from "../Utility/GenerateDocx";
 import Section from "../Components/ResumeSection";
@@ -10,7 +9,7 @@ import ResumeHeading from "../Components/ResumeHeading";
 import ContactDetails from "../Components/ContactDetails";
 import { useContactDetails } from "../Context/ContactDetailsContext";
 import { useFileContext } from "../Context/FileContext";
-import AlertModal from "../Components/AlertModal";
+import { useModal } from "../Context/ModalContext";
 import { useResumeContext } from "../Context/ResumeMetaContext";
 
 const ResumeWorkspace: React.FC = () => {
@@ -19,7 +18,7 @@ const ResumeWorkspace: React.FC = () => {
   const { contactDetails, linkedInEnabled, addressEnabled } =
     useContactDetails();
   const { fileName, setFileName } = useFileContext();
-  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
+  const { openModal, closeModal } = useModal();
 
   const generatePDF = () => {
     const pdf = new jsPDF({
@@ -42,7 +41,11 @@ const ResumeWorkspace: React.FC = () => {
   };
 
   const handleGenerateDocx = () => {
-    setIsSaveModalOpen(true);
+    openModal(
+      "Please enter the filename for your resume.",
+      handleSaveConfirm,
+      fileName
+    );
   };
 
   const handleSaveConfirm = async (fileName?: string) => {
@@ -55,7 +58,7 @@ const ResumeWorkspace: React.FC = () => {
         fileName
       );
       setFileName(fileName);
-      setIsSaveModalOpen(false);
+      closeModal();
     }
   };
 
@@ -86,13 +89,6 @@ const ResumeWorkspace: React.FC = () => {
           </div>
         </div>
       </div>
-      <AlertModal
-        isOpen={isSaveModalOpen}
-        onClose={() => setIsSaveModalOpen(false)}
-        onConfirm={handleSaveConfirm}
-        message="Please enter the filename for your resume."
-        fileName={fileName}
-      />
     </div>
   );
 };

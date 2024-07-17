@@ -3,6 +3,7 @@ import { useSections } from "../Context/SectionsContext";
 import debounce from "lodash/debounce";
 import { useResumeContext } from "../Context/ResumeMetaContext";
 import AlertModal from "./AlertModal";
+import { useModal } from "../Context/ModalContext";
 
 interface DynamicHeightTextareaProps {
   index: number;
@@ -16,7 +17,7 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
   const textValue = useMemo(() => sections[index].text, [sections, index]);
   const { resumeRef, heightMinusPadding } = useResumeContext();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { openModal, closeModal } = useModal();
 
   const adjustTextareaHeight = useCallback(() => {
     const textarea = textareaRef.current;
@@ -49,7 +50,7 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
         adjustTextareaHeight();
 
         if (!checkHeight()) {
-          setIsModalOpen(true);
+          openModal("Adding more text will exceed the page limit.");
           textarea.value = textValue;
           adjustTextareaHeight();
           return;
@@ -60,12 +61,16 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
         setSections(newSections);
       }
     },
-    [sections, index, setSections, adjustTextareaHeight, checkHeight, textValue]
+    [
+      adjustTextareaHeight,
+      checkHeight,
+      sections,
+      index,
+      setSections,
+      openModal,
+      textValue,
+    ]
   );
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
 
   return (
     <>
@@ -79,11 +84,11 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
         style={{ height: "auto" }}
         data-text
       />
-      <AlertModal
+      {/* <AlertModal
         isOpen={isModalOpen}
         onClose={closeModal}
         message="Adding more text will exceed the page limit."
-      />
+      /> */}
     </>
   );
 };

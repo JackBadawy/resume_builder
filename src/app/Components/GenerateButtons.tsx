@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSections } from "../Context/SectionsContext";
+import { useModal } from "../Context/ModalContext";
 import AlertModal from "./AlertModal";
 
 interface GenerateButtonsProps {
@@ -12,7 +13,7 @@ const GenerateButtons: React.FC<GenerateButtonsProps> = ({
   docxFunc,
 }) => {
   const { sections } = useSections();
-  const [isOpen, setIsOpen] = useState(false);
+  const { openModal } = useModal();
   const generateDocumentAttemptValidityCheck = (func: () => void) => {
     const emptySectionsCheck = sections.every(
       (section) => section.text.trim() != ""
@@ -20,7 +21,7 @@ const GenerateButtons: React.FC<GenerateButtonsProps> = ({
     if (emptySectionsCheck) {
       func();
     } else {
-      setIsOpen(true);
+      openModal("Please fill out or delete all unpopulated sections");
     }
   };
 
@@ -38,13 +39,6 @@ const GenerateButtons: React.FC<GenerateButtonsProps> = ({
       >
         Generate Word Doc
       </button>
-      <AlertModal
-        isOpen={isOpen}
-        onClose={function (): void {
-          setIsOpen(false);
-        }}
-        message={"Please fill out or delete all unpopulated sections"}
-      />
     </>
   );
 };

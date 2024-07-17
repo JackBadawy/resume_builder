@@ -1,5 +1,5 @@
 "use client";
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useSections } from "../Context/SectionsContext";
 import ToggleSwitch from "./ToggleSwitch";
 import { useContactDetails } from "../Context/ContactDetailsContext";
@@ -9,9 +9,8 @@ import {
   faArrowUp,
   faArrowDown,
 } from "@fortawesome/free-solid-svg-icons";
-import AlertModal from "./AlertModal";
-import { useResumeHeading } from "../Context/ResumeHeadingContext";
 import { useResumeContext } from "../Context/ResumeMetaContext";
+import { useModal } from "../Context/ModalContext";
 
 const UtilityPanel: React.FC = () => {
   const {
@@ -21,7 +20,6 @@ const UtilityPanel: React.FC = () => {
     moveSectionDown,
     deleteSection,
     resetSections,
-    isLoading: sectionsLoading,
   } = useSections();
   const {
     linkedInEnabled,
@@ -31,13 +29,11 @@ const UtilityPanel: React.FC = () => {
   } = useContactDetails();
   const [newSectionPrompt, setNewSecPrompt] = useState<boolean>(false);
   const [newSubHeading, setNewSubHeading] = useState<string>("");
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [modalMessage, setModalMessage] = useState<string>("");
-  const [modalAction, setModalAction] = useState<() => void>(() => {});
 
-  const { contactDetails, isLoading } = useContactDetails();
-  const { fullName, jobTitle, isLoading: headingLoading } = useResumeHeading();
-  const { heightMinusPadding, resumeRef, a4Ref } = useResumeContext();
+  const { isLoading } = useContactDetails();
+
+  const { heightMinusPadding, resumeRef } = useResumeContext();
+  const { openModal } = useModal();
 
   const handleNewSecChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewSubHeading(e.target.value);
@@ -50,7 +46,7 @@ const UtilityPanel: React.FC = () => {
         setNewSubHeading("");
         setNewSecPrompt(false);
       } else {
-        alert("Adding this section will exceed the page height.");
+        openModal("Adding this section will exceed the page limit.");
       }
     }
   };
@@ -60,21 +56,13 @@ const UtilityPanel: React.FC = () => {
   };
 
   const handleDelete = (index: number) => {
-    setModalMessage("Are you sure you want to delete this section?");
-    setModalAction(() => () => {
-      deleteSection(index);
-      setIsModalOpen(false);
-    });
-    setIsModalOpen(true);
+    openModal("Are you sure you want to delete this section?", () =>
+      deleteSection(index)
+    );
   };
 
   const handleReset = () => {
-    setModalMessage("Are you sure you want to reset all sections?");
-    setModalAction(() => () => {
-      resetSections();
-      setIsModalOpen(false);
-    });
-    setIsModalOpen(true);
+    openModal("Are you sure you want to reset all sections?", resetSections);
   };
 
   const canAddNewSection = (): boolean => {
@@ -192,13 +180,6 @@ const UtilityPanel: React.FC = () => {
           </li>
         </ul>
       </div>
-
-      <AlertModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onConfirm={modalAction}
-        message={modalMessage}
-      />
     </div>
   );
 };
