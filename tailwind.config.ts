@@ -35,7 +35,10 @@ const config: Config = {
         "word-20": "1.375rem",
         "word-18": "1.25rem",
         "word-16": "1.18rem",
-        "word-11": "0.84rem",
+        "word-11": ["0.84rem", "1.15"],
+      },
+      lineHeight: {
+        "word-11": "1.15",
       },
     },
   },

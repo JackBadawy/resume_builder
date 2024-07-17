@@ -49,8 +49,8 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
         adjustTextareaHeight();
 
         if (!checkHeight()) {
-          setIsModalOpen(true); // Open the modal when height limit is exceeded
-          textarea.value = textValue; // Revert to previous value
+          setIsModalOpen(true);
+          textarea.value = textValue;
           adjustTextareaHeight();
           return;
         }
@@ -71,7 +71,7 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
     <>
       <textarea
         ref={textareaRef}
-        className="font-aptos text-black text-word-11 w-full border-none resize-none p-0 overflow-hidden outline-none"
+        className="font-aptos text-black text-word-11 w-full border-none resize-none p-0 overflow-hidden outline-none "
         placeholder="Enter text here..."
         rows={1}
         onChange={handleTextChange}
@@ -82,7 +82,7 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
       <AlertModal
         isOpen={isModalOpen}
         onClose={closeModal}
-        message="Adding more text will exceed the page height."
+        message="Adding more text will exceed the page limit."
       />
     </>
   );
