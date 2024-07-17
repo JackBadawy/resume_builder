@@ -39,6 +39,45 @@ const AlertModal: React.FC<ModalProps> = ({
     setLocalFileName(value);
   };
 
+  const renderFileNameInput = () => {
+    if (fileName !== undefined) {
+      return (
+        <div className="flex justify-center mb-4">
+          <DynamicWidthInput
+            value={localFileName}
+            onChange={handleInputChange}
+            placeholder=""
+            className="bg-gray-700 text-white"
+          />
+          <p className="p-2 pl-1 rounded text-center min-w-[1px] outline-none">
+            .docx & pdf
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const renderButtons = () => {
+    return (
+      <div className="flex justify-end gap-4">
+        <button
+          className={`px-4 py-2 rounded ${
+            onConfirm ? "bg-gray-600" : "bg-bws"
+          }`}
+          onClick={onClose}
+        >
+          Cancel
+        </button>
+        {onConfirm && (
+          <button className="px-4 py-2 bg-bws rounded" onClick={handleConfirm}>
+            Confirm
+          </button>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 fade-in">
       <div className="bg-slate-800 p-6 rounded-lg shadow-md text-white w-80 slide-down">
@@ -46,38 +85,8 @@ const AlertModal: React.FC<ModalProps> = ({
         <div className="bg-slate-700 p-1 rounded mb-4 px-2">
           <p className="mb-1">{message}</p>
         </div>
-        {fileName !== undefined && (
-          <div className="flex justify-center mb-4">
-            <DynamicWidthInput
-              value={localFileName}
-              onChange={handleInputChange}
-              placeholder=""
-              className="bg-gray-700 text-white"
-            />
-
-            <p className="p-2 pl-1 rounded text-center min-w-[1px] outline-none">
-              .docx & pdf
-            </p>
-          </div>
-        )}
-        <div className="flex justify-end gap-4">
-          <button
-            className={`px-4 py-2 rounded ${
-              onConfirm ? "bg-gray-600" : "bg-bws"
-            }`}
-            onClick={onClose}
-          >
-            Cancel
-          </button>
-          {onConfirm && (
-            <button
-              className="px-4 py-2 bg-bws rounded"
-              onClick={handleConfirm}
-            >
-              Confirm
-            </button>
-          )}
-        </div>
+        {renderFileNameInput()}
+        {renderButtons()}
       </div>
     </div>
   );

@@ -68,10 +68,10 @@ const ResumeWorkspace: React.FC = () => {
         generatePDF={generatePDF}
         docxFunc={handleGenerateDocx}
       />
-      <div className="horizontalResume&UtilCont flex">
+      <div className="horizontalResume&UtilCont grid grid-cols-[1fr_auto_1fr]">
         <UtilityPanel />
         <div
-          className="resumePreview h-a4 w-a4 shadow-2xl  bg-white p-msmargin"
+          className="resumePreview h-a4 w-a4 shadow-2xl bg-white p-msmargin"
           ref={a4Ref}
         >
           <div className="resumeheightreader" ref={resumeRef}>
