@@ -6,12 +6,16 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-
 import { useModal } from "./ModalContext";
 
-interface Section {
+export interface SectionEntry {
+  id: number;
+  entryContent: string;
+}
+
+export interface Section {
   heading: string;
-  text: string;
+  sectionContent: SectionEntry[];
 }
 
 interface SectionsContextType {
@@ -30,10 +34,10 @@ const SectionsContext = createContext<SectionsContextType | undefined>(
 );
 
 const defaultSections: Section[] = [
-  { heading: "About Me", text: "" },
-  { heading: "Work Experience", text: "" },
-  { heading: "Education", text: "" },
-  { heading: "References", text: "" },
+  { heading: "About Me", sectionContent: [{ id: 1, entryContent: "" }] },
+  { heading: "Work Experience", sectionContent: [] },
+  { heading: "Education", sectionContent: [] },
+  { heading: "References", sectionContent: [] },
 ];
 
 export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
@@ -69,7 +73,7 @@ export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
   }, [sections]);
 
   const addSection = (sectionName: string) => {
-    setSections([...sections, { heading: sectionName, text: "" }]);
+    setSections([...sections, { heading: sectionName, sectionContent: [] }]);
   };
 
   const moveSectionUp = (index: number) => {

@@ -2,22 +2,26 @@ import { useRef, useMemo, useCallback, useLayoutEffect, useState } from "react";
 import { useSections } from "../Context/SectionsContext";
 import debounce from "lodash/debounce";
 import { useResumeContext } from "../Context/ResumeMetaContext";
-import AlertModal from "./AlertModal";
+import AlertModal from "./Modals/AlertModal";
 import { useModal } from "../Context/ModalContext";
 
 interface DynamicHeightTextareaProps {
-  index: number;
+  sectionIndex: number;
+  entryIndex: number;
 }
 
 const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
-  index,
+  sectionIndex,
+  entryIndex,
 }) => {
   const { sections, setSections } = useSections();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const textValue = useMemo(() => sections[index].text, [sections, index]);
+  const textValue = useMemo(
+    () => sections[sectionIndex].sectionContent[entryIndex].entryContent,
+    [sections, sectionIndex, entryIndex]
+  );
   const { resumeRef, heightMinusPadding } = useResumeContext();
-
-  const { openModal, closeModal } = useModal();
+  const { openModal } = useModal();
 
   const adjustTextareaHeight = useCallback(() => {
     const textarea = textareaRef.current;
@@ -57,7 +61,8 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
         }
 
         const newSections = [...sections];
-        newSections[index].text = newText;
+        newSections[sectionIndex].sectionContent[entryIndex].entryContent =
+          newText;
         setSections(newSections);
       }
     },
@@ -65,7 +70,8 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
       adjustTextareaHeight,
       checkHeight,
       sections,
-      index,
+      sectionIndex,
+      entryIndex,
       setSections,
       openModal,
       textValue,
@@ -76,7 +82,7 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
     <>
       <textarea
         ref={textareaRef}
-        className="font-aptos text-black text-word-11 w-full border-none resize-none p-0 overflow-hidden outline-none "
+        className="font-aptos text-black text-word-11 w-full border-none resize-none p-0 overflow-hidden outline-none"
         placeholder="Enter text here..."
         rows={1}
         onChange={handleTextChange}
@@ -84,11 +90,6 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
         style={{ height: "auto" }}
         data-text
       />
-      {/* <AlertModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        message="Adding more text will exceed the page limit."
-      /> */}
     </>
   );
 };

@@ -1,7 +1,7 @@
 "use client";
 import jsPDF from "jspdf";
 import { generateDocx } from "../Utility/GenerateDocx";
-import Section from "../Components/ResumeSection";
+import ResumeSection from "../Components/ResumeSection";
 import { useSections } from "../Context/SectionsContext";
 import UtilityPanel from "../Components/UtilitiesPanel";
 import GenerateButtons from "../Components/GenerateButtons";
@@ -79,9 +79,10 @@ const ResumeWorkspace: React.FC = () => {
             <ContactDetails />
             <div className="flex flex-col" id="sectionsContainer">
               {sections.map((section, index) => (
-                <Section
+                <ResumeSection
                   key={index}
                   subHeadingText={section.heading}
+                  section={section}
                   index={index}
                 />
               ))}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSections } from "../Context/SectionsContext";
 import { useModal } from "../Context/ModalContext";
-import AlertModal from "./AlertModal";
+import AlertModal from "./Modals/AlertModal";
 
 interface GenerateButtonsProps {
   generatePDF: () => void;

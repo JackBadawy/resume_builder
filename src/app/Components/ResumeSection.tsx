@@ -1,15 +1,22 @@
 "use client";
+import React, { useEffect, useState } from "react";
 import SubHeading from "./SubHeading";
-import DynamicHeightTxtArea from "./DynamicHeightTxtArea";
 import { useSections } from "../Context/SectionsContext";
-import { useEffect, useState } from "react";
+import SectionHelperBtn from "./SectionComponents/SectionHelperBtn";
+import SectionEntryComponent from "./SectionComponents/SectionEntryComponent";
+import { Section as SectionType } from "../Context/SectionsContext";
 
-type SectionProps = {
+interface SectionProps {
   subHeadingText: string;
+  section: SectionType;
   index: number;
-};
+}
 
-const Section: React.FC<SectionProps> = ({ subHeadingText, index }) => {
+const Section: React.FC<SectionProps> = ({
+  subHeadingText,
+  section,
+  index,
+}) => {
   const { isLoading } = useSections();
   const [hydrated, setHydrated] = useState(false);
 
@@ -31,7 +38,15 @@ const Section: React.FC<SectionProps> = ({ subHeadingText, index }) => {
       ) : (
         <div>
           <SubHeading text={subHeadingText} />
-          <DynamicHeightTxtArea index={index} />
+          <SectionHelperBtn section={subHeadingText} />
+          {section.sectionContent.map((entry, entryIndex) => (
+            <SectionEntryComponent
+              key={entry.id}
+              entry={entry}
+              sectionIndex={index}
+              entryIndex={entryIndex}
+            />
+          ))}
         </div>
       )}
     </div>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useFileContext } from "../Context/FileContext";
-import DynamicWidthInput from "./DynamicWidthInput";
+import { useFileContext } from "../../Context/FileContext";
+import DynamicWidthInput from "../DynamicWidthInput";
 
 interface ModalProps {
   isOpen: boolean;

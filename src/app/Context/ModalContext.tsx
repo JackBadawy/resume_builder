@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import AlertModal from "../Components/AlertModal";
+import AlertModal from "../Components/Modals/AlertModal";
 
 interface ModalContextProps {
   openModal: (
