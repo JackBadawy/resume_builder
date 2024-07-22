@@ -35,9 +35,9 @@ const SectionsContext = createContext<SectionsContextType | undefined>(
 
 const defaultSections: Section[] = [
   { heading: "About Me", sectionContent: [{ id: 1, entryContent: "" }] },
-  { heading: "Work Experience", sectionContent: [] },
-  { heading: "Education", sectionContent: [] },
-  { heading: "References", sectionContent: [] },
+  { heading: "Work Experience", sectionContent: [{ id: 1, entryContent: "" }] },
+  { heading: "Education", sectionContent: [{ id: 1, entryContent: "" }] },
+  { heading: "References", sectionContent: [{ id: 1, entryContent: "" }] },
 ];
 
 export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
@@ -73,7 +73,10 @@ export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
   }, [sections]);
 
   const addSection = (sectionName: string) => {
-    setSections([...sections, { heading: sectionName, sectionContent: [] }]);
+    setSections([
+      ...sections,
+      { heading: sectionName, sectionContent: [{ id: 1, entryContent: "" }] },
+    ]);
   };
 
   const moveSectionUp = (index: number) => {
