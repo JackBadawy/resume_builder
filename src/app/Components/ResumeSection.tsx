@@ -39,14 +39,15 @@ const Section: React.FC<SectionProps> = ({
         <div>
           <SubHeading text={subHeadingText} />
           <SectionHelperBtn section={subHeadingText} />
-          {section.sectionContent.map((entry, entryIndex) => (
-            <SectionEntryComponent
-              key={entry.id}
-              entry={entry}
-              sectionIndex={index}
-              entryIndex={entryIndex}
-            />
-          ))}
+          {section.sectionContent &&
+            section.sectionContent.map((entry, entryIndex) => (
+              <SectionEntryComponent
+                key={entry.id}
+                entry={entry}
+                sectionIndex={index}
+                entryIndex={entryIndex}
+              />
+            ))}
         </div>
       )}
     </div>
