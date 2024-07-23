@@ -38,7 +38,7 @@ const Section: React.FC<SectionProps> = ({
       ) : (
         <div>
           <SubHeading text={subHeadingText} />
-          <SectionHelperBtn section={subHeadingText} />
+          <SectionHelperBtn section={section} index={index} />
           {section.sectionContent &&
             section.sectionContent.map((entry, entryIndex) => (
               <SectionEntryComponent
@@ -46,6 +46,7 @@ const Section: React.FC<SectionProps> = ({
                 entry={entry}
                 sectionIndex={index}
                 entryIndex={entryIndex}
+                aboutMe={section.heading === "About Me" ? true : false}
               />
             ))}
         </div>

@@ -61,8 +61,9 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
         }
 
         const newSections = [...sections];
-        newSections[sectionIndex].sectionContent[entryIndex].entryContent =
-          newText;
+        newSections[sectionIndex].sectionContent[
+          entryIndex
+        ].entryContent.concat(newText);
         setSections(newSections);
       }
     },

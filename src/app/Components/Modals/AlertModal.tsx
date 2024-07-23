@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import { useFileContext } from "../../Context/FileContext";
 import DynamicWidthInput from "../DynamicWidthInput";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm?: (fileName?: string) => void | Promise<void>;
+  onConfirm?: (content?: string[]) => void;
   message: string;
   fileName?: string;
+  renderContent?: () => JSX.Element;
 }
 
 const AlertModal: React.FC<ModalProps> = ({
@@ -16,24 +16,22 @@ const AlertModal: React.FC<ModalProps> = ({
   onConfirm,
   message,
   fileName,
+  renderContent,
 }) => {
-  const { fileName: contextFileName, setFileName } = useFileContext();
-  const [localFileName, setLocalFileName] = useState<string>(contextFileName);
-
-  useEffect(() => {
-    setLocalFileName(contextFileName);
-  }, [contextFileName]);
-
-  if (!isOpen) return null;
+  const [localFileName, setLocalFileName] = useState<string>(fileName || "");
 
   const handleConfirm = () => {
-    if (fileName !== undefined && onConfirm) {
-      setFileName(localFileName);
-      onConfirm(localFileName);
-    } else if (onConfirm) {
-      onConfirm();
+    if (onConfirm) {
+      if (fileName) {
+        onConfirm([localFileName]);
+      } else {
+        onConfirm();
+      }
     }
+    onClose();
   };
+
+  if (!isOpen) return null;
 
   const handleInputChange = (value: string) => {
     setLocalFileName(value);
@@ -85,6 +83,7 @@ const AlertModal: React.FC<ModalProps> = ({
         <div className="bg-slate-700 p-1 rounded mb-4 px-2">
           <p className="mb-1">{message}</p>
         </div>
+        {renderContent && renderContent()}
         {renderFileNameInput()}
         {renderButtons()}
       </div>

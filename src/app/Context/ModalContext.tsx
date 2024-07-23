@@ -4,8 +4,9 @@ import AlertModal from "../Components/Modals/AlertModal";
 interface ModalContextProps {
   openModal: (
     message: string,
-    onConfirm?: (fileName?: string) => void,
-    fileName?: string
+    onConfirm?: (content?: string[]) => void,
+    fileName?: string,
+    renderContent?: () => JSX.Element
   ) => void;
   closeModal: () => void;
 }
@@ -27,22 +28,31 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
   const [message, setMessage] = useState("");
   const [fileName, setFileName] = useState<string | undefined>(undefined);
   const [onConfirm, setOnConfirm] = useState<
-    ((fileName?: string) => void) | undefined
+    ((content?: string[]) => void) | undefined
+  >(undefined);
+  const [renderContent, setRenderContent] = useState<
+    (() => JSX.Element) | undefined
   >(undefined);
 
   const openModal = (
     message: string,
-    onConfirm?: (fileName?: string) => void,
-    fileName?: string
+    onConfirm?: (content?: string[]) => void,
+    fileName?: string,
+    renderContent?: () => JSX.Element
   ) => {
     setMessage(message);
     setOnConfirm(() => onConfirm);
     setFileName(fileName);
+    setRenderContent(() => renderContent);
     setIsOpen(true);
   };
 
   const closeModal = () => {
     setIsOpen(false);
+    setMessage("");
+    setFileName(undefined);
+    setOnConfirm(undefined);
+    setRenderContent(undefined);
   };
 
   return (
@@ -54,6 +64,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
         onConfirm={onConfirm}
         message={message}
         fileName={fileName}
+        renderContent={renderContent}
       />
     </ModalContext.Provider>
   );

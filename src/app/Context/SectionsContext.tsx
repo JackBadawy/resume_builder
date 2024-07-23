@@ -10,7 +10,7 @@ import { useModal } from "./ModalContext";
 
 export interface SectionEntry {
   id: number;
-  entryContent: string;
+  entryContent: string[];
 }
 
 export interface Section {
@@ -22,11 +22,13 @@ interface SectionsContextType {
   sections: Section[];
   setSections: React.Dispatch<React.SetStateAction<Section[]>>;
   addSection: (sectionName: string) => void;
+  addSectionEntry: (sectionIndex: number, content: string[]) => void;
   moveSectionUp: (index: number) => void;
   moveSectionDown: (index: number) => void;
   deleteSection: (index: number) => void;
   resetSections: () => void;
   isLoading: boolean;
+  deleteEntry: (sectionIndex: number, entryIndex: number) => void;
 }
 
 const SectionsContext = createContext<SectionsContextType | undefined>(
@@ -34,10 +36,13 @@ const SectionsContext = createContext<SectionsContextType | undefined>(
 );
 
 const defaultSections: Section[] = [
-  { heading: "About Me", sectionContent: [{ id: 1, entryContent: "" }] },
-  { heading: "Work Experience", sectionContent: [{ id: 1, entryContent: "" }] },
-  { heading: "Education", sectionContent: [{ id: 1, entryContent: "" }] },
-  { heading: "References", sectionContent: [{ id: 1, entryContent: "" }] },
+  { heading: "About Me", sectionContent: [{ id: 1, entryContent: [""] }] },
+  {
+    heading: "Work Experience",
+    sectionContent: [],
+  },
+  { heading: "Education", sectionContent: [] },
+  { heading: "References", sectionContent: [] },
 ];
 
 export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
@@ -73,10 +78,20 @@ export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
   }, [sections]);
 
   const addSection = (sectionName: string) => {
-    setSections([
-      ...sections,
-      { heading: sectionName, sectionContent: [{ id: 1, entryContent: "" }] },
-    ]);
+    console.log("Adding section:", sectionName);
+    setSections([...sections, { heading: sectionName, sectionContent: [] }]);
+  };
+
+  const addSectionEntry = (sectionIndex: number, entryContent: string[]) => {
+    const newSections = [...sections];
+    newSections[sectionIndex].sectionContent.push({
+      id: newSections[sectionIndex].sectionContent.length + 1,
+      entryContent: [...entryContent],
+    });
+
+    setSections(newSections);
+
+    console.log("sections", sections);
   };
 
   const moveSectionUp = (index: number) => {
@@ -107,8 +122,25 @@ export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
     closeModal();
   };
 
+  const deleteEntry = (sectionIndex: number, entryIndex: number) => {
+    const newSections = [...sections];
+    newSections[sectionIndex].sectionContent = newSections[
+      sectionIndex
+    ].sectionContent.filter((_, i) => i !== entryIndex);
+    setSections(newSections);
+    localStorage.setItem("sections", JSON.stringify(newSections));
+    closeModal();
+  };
+
   const resetSections = () => {
+    console.log("Resetting sections");
+    const newSections = defaultSections.map((section) => ({
+      ...section,
+      sectionContent: [],
+    }));
+    setSections(newSections);
     setSections(defaultSections);
+    localStorage.setItem("sections", JSON.stringify(newSections));
     closeModal();
   };
 
@@ -118,11 +150,13 @@ export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
         sections,
         setSections,
         addSection,
+        addSectionEntry,
         moveSectionUp,
         moveSectionDown,
         deleteSection,
         resetSections,
         isLoading,
+        deleteEntry,
       }}
     >
       {children}
