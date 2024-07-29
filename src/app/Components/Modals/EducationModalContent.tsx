@@ -51,12 +51,18 @@ const EducationModalContent: React.FC<EducationModalContentProps> = ({
         onChange={(e) => setTimePeriod(e.target.value)}
         className="mb-2 p-1 border text-black"
       />
-      <button
-        onClick={handleConfirm}
-        className="bg-bws text-white p-2 px-4 rounded-full mx-4 mb-4"
-      >
-        +
-      </button>
+
+      <div className="flex justify-end gap-4">
+        <button
+          className={`px-4 py-2 rounded ${"bg-gray-600"}`}
+          onClick={onClose}
+        >
+          Cancel
+        </button>
+        <button onClick={handleConfirm} className="px-4 py-2 bg-bws rounded">
+          Confirm
+        </button>
+      </div>
     </div>
   );
 };

@@ -1,8 +1,6 @@
 import { useRef, useMemo, useCallback, useLayoutEffect, useState } from "react";
 import { useSections } from "../Context/SectionsContext";
-import debounce from "lodash/debounce";
 import { useResumeContext } from "../Context/ResumeMetaContext";
-import AlertModal from "./Modals/AlertModal";
 import { useModal } from "../Context/ModalContext";
 
 interface DynamicHeightTextareaProps {
@@ -16,8 +14,12 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
 }) => {
   const { sections, setSections } = useSections();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const textValue = useMemo(
+  /* const textValue = useMemo(
     () => sections[sectionIndex].sectionContent[entryIndex].entryContent,
+    [sections, sectionIndex, entryIndex]
+  ); */
+  const textValue = useMemo(
+    () => sections[sectionIndex].sectionContent[entryIndex].entryContent || "",
     [sections, sectionIndex, entryIndex]
   );
   const { resumeRef, heightMinusPadding } = useResumeContext();
