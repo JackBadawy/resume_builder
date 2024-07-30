@@ -14,14 +14,14 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
 }) => {
   const { sections, setSections } = useSections();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  /* const textValue = useMemo(
+  const textValue = useMemo(
     () => sections[sectionIndex].sectionContent[entryIndex].entryContent,
     [sections, sectionIndex, entryIndex]
-  ); */
-  const textValue = useMemo(
+  );
+  /* const textValue = useMemo(
     () => sections[sectionIndex].sectionContent[entryIndex].entryContent || "",
     [sections, sectionIndex, entryIndex]
-  );
+  ); */
   const { resumeRef, heightMinusPadding } = useResumeContext();
   const { openModal } = useModal();
 
@@ -62,17 +62,20 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
           return;
         }
 
-        const newSections = [...sections];
-        newSections[sectionIndex].sectionContent[
-          entryIndex
-        ].entryContent.concat(newText);
-        setSections(newSections);
+        setSections((prevSections) => {
+          const updatedSections = [...prevSections];
+          updatedSections[sectionIndex].sectionContent[
+            entryIndex
+          ].entryContent = newText;
+          return updatedSections;
+        });
+
+        adjustTextareaHeight();
       }
     },
     [
       adjustTextareaHeight,
       checkHeight,
-      sections,
       sectionIndex,
       entryIndex,
       setSections,
