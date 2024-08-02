@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { AboutMeTemplateTable } from "../Utility/AboutMeTemplateTable";
-import { useSections } from "../Context/SectionsContext";
 
 interface SelectionCaroselProps {
   fullName: string;
@@ -34,11 +33,11 @@ const SelectionCarosel: React.FC<SelectionCaroselProps> = ({
     return `${templateIndex + 1} / ${aboutMeTemplates.length}`;
   };
 
-  const returnTemplate = (index) => {
+  const returnTemplate = (index: number) => {
     return aboutMeTemplates[index];
   };
 
-  const iterateCounter = (operator) => {
+  const iterateCounter = (operator: string) => {
     switch (operator) {
       case "+":
         setTemplateIndex(
@@ -46,7 +45,9 @@ const SelectionCarosel: React.FC<SelectionCaroselProps> = ({
         );
         break;
       case "-":
-        setTemplateIndex(templateIndex != 0 ? templateIndex - 1 : 0);
+        setTemplateIndex(
+          templateIndex != 0 ? templateIndex - 1 : aboutMeTemplates.length - 1
+        );
         break;
       default:
         setTemplateIndex(0);
@@ -76,7 +77,7 @@ const SelectionCarosel: React.FC<SelectionCaroselProps> = ({
             +
           </button>
         </div>
-        <div className="bg-slate-700 p-1 rounded mb-4 px-2 w-max">
+        <div className="bg-slate-700 p-1 rounded mb-4 px-2 max-w-7xl">
           <p>{returnTemplate(templateIndex)}</p>
         </div>
         <button
