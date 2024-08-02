@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Providers from "./Context/Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,9 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="./img/icon.png" />
       </head>
-      <body className="bg-cover bg-[url('./img/bgImg.jpg')]">{children}</body>
+      <body className="bg-cover bg-[url('./img/bgImg.jpg')]">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

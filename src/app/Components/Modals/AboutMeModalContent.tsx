@@ -23,7 +23,11 @@ const AboutMeModalContent: React.FC<AboutMeModalContentProps> = ({
 
   return (
     <div>
-      <SelectionCarosel fullName={fullName} jobTitle={jobTitle} />
+      <SelectionCarosel
+        fullName={fullName}
+        jobTitle={jobTitle}
+        onConfirm={onConfirm}
+      />
 
       <div className="flex justify-end gap-4">
         <button

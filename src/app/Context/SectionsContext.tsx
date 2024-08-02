@@ -84,10 +84,20 @@ export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
 
   const addSectionEntry = (sectionIndex: number, entryContent: string[]) => {
     const newSections = [...sections];
-    newSections[sectionIndex].sectionContent.push({
-      id: newSections[sectionIndex].sectionContent.length + 1,
-      entryContent: [...entryContent],
-    });
+
+    if (newSections[sectionIndex].heading === "About Me") {
+      newSections[sectionIndex].sectionContent = [
+        {
+          id: 1,
+          entryContent: [...entryContent],
+        },
+      ];
+    } else {
+      newSections[sectionIndex].sectionContent.push({
+        id: newSections[sectionIndex].sectionContent.length + 1,
+        entryContent: [...entryContent],
+      });
+    }
 
     setSections(newSections);
 

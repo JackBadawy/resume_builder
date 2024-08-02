@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { AboutMeTemplateTable } from "../Utility/AboutMeTemplateTable";
+import { useSections } from "../Context/SectionsContext";
 
 interface SelectionCaroselProps {
   fullName: string;
   jobTitle: string;
+  onConfirm: (content: string[]) => void;
 }
 
 const SelectionCarosel: React.FC<SelectionCaroselProps> = ({
   fullName,
   jobTitle,
+  onConfirm,
 }) => {
   const [userInfo, setUserInfo] = useState<string[]>([]);
   const [templateIndex, setTemplateIndex] = useState<number>(0);
@@ -22,8 +25,9 @@ const SelectionCarosel: React.FC<SelectionCaroselProps> = ({
   }, [fullName, jobTitle]);
   const aboutMeTemplates = AboutMeTemplateTable(userInfo[0], userInfo[1]);
 
-  const addTemplate = () => {
-    //
+  const handleAddTemplate = () => {
+    const selectedTemplate = aboutMeTemplates[templateIndex];
+    onConfirm([selectedTemplate]);
   };
 
   const templateCounter = () => {
@@ -75,7 +79,12 @@ const SelectionCarosel: React.FC<SelectionCaroselProps> = ({
         <div className="bg-slate-700 p-1 rounded mb-4 px-2 w-max">
           <p>{returnTemplate(templateIndex)}</p>
         </div>
-        <button className="px-4 py-2 bg-bws rounded mt-1">Add Template</button>
+        <button
+          onClick={handleAddTemplate}
+          className="px-4 py-2 bg-bws rounded mt-1"
+        >
+          Add Template
+        </button>
       </div>
     );
   }
