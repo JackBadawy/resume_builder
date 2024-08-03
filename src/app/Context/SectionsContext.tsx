@@ -6,6 +6,7 @@ import {
   useEffect,
   ReactNode,
 } from "react";
+import { useResumeContext } from "./ResumeMetaContext";
 import { useModal } from "./ModalContext";
 
 export interface SectionEntry {
@@ -48,7 +49,8 @@ const defaultSections: Section[] = [
 export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const { closeModal } = useModal();
+  const { closeModal, openModal } = useModal();
+  const { resumeRef, heightMinusPadding } = useResumeContext();
   const [isLoading, setIsLoading] = useState(true);
   const [sections, setSections] = useState<Section[]>(() => {
     if (typeof window !== "undefined") {
@@ -82,7 +84,23 @@ export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
     setSections([...sections, { heading: sectionName, sectionContent: [] }]);
   };
 
+  const checkHeight = () => {
+    if (resumeRef.current) {
+      const currentHeight = resumeRef.current.scrollHeight;
+      return currentHeight <= heightMinusPadding;
+    }
+    return true;
+  };
+
   const addSectionEntry = (sectionIndex: number, entryContent: string[]) => {
+    if (!checkHeight()) {
+      setTimeout(() => {
+        openModal("Adding more content will exceed the page limit.");
+      }, 1);
+
+      return;
+    }
+
     const newSections = [...sections];
 
     if (newSections[sectionIndex].heading === "About Me") {

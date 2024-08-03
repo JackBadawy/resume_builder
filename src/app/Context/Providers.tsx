@@ -11,11 +11,11 @@ const Providers: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     <ResumeHeadingProvider>
       <ModalProvider>
         <FileContextProvider>
-          <SectionsProvider>
-            <ResumeProvider>
+          <ResumeProvider>
+            <SectionsProvider>
               <ContactDetailsProvider>{children}</ContactDetailsProvider>
-            </ResumeProvider>
-          </SectionsProvider>
+            </SectionsProvider>
+          </ResumeProvider>
         </FileContextProvider>
       </ModalProvider>
     </ResumeHeadingProvider>

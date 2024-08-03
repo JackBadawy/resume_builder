@@ -32,6 +32,8 @@ const AlertModal: React.FC<ModalProps> = ({
     onClose();
   };
 
+  console.log("Modal isOpen:", isOpen);
+
   if (!isOpen) return null;
 
   const handleInputChange = (value: string) => {

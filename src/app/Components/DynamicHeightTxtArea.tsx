@@ -57,7 +57,7 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
 
         if (!checkHeight()) {
           openModal("Adding more text will exceed the page limit.");
-          textarea.value = textValue;
+          [textarea.value] = textValue;
           adjustTextareaHeight();
           return;
         }
@@ -66,7 +66,7 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
           const updatedSections = [...prevSections];
           updatedSections[sectionIndex].sectionContent[
             entryIndex
-          ].entryContent = newText;
+          ].entryContent = [newText];
           return updatedSections;
         });
 
