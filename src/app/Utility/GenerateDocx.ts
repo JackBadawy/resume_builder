@@ -1,4 +1,11 @@
-import { Document, Packer, Paragraph, TextRun, BorderStyle } from "docx";
+import {
+  Document,
+  Packer,
+  Paragraph,
+  TextRun,
+  BorderStyle,
+  ExternalHyperlink,
+} from "docx";
 import { saveAs } from "file-saver";
 
 export const generateDocx = async (
@@ -14,9 +21,20 @@ export const generateDocx = async (
     new Paragraph({
       children: [
         new TextRun({
-          text: `Email: ${contactDetails.email}`,
+          text: `Email: `,
           size: 22,
           font: "Aptos (body)",
+        }),
+        new ExternalHyperlink({
+          children: [
+            new TextRun({
+              text: contactDetails.email,
+              style: "Hyperlink",
+              size: 22,
+              font: "Aptos (body)",
+            }),
+          ],
+          link: `mailto:${contactDetails.email}`,
         }),
       ],
     }),
@@ -50,9 +68,20 @@ export const generateDocx = async (
       new Paragraph({
         children: [
           new TextRun({
-            text: `LinkedIn Profile: ${contactDetails.linkedin}`,
+            text: `LinkedIn Profile: `,
             size: 22,
             font: "Aptos (body)",
+          }),
+          new ExternalHyperlink({
+            children: [
+              new TextRun({
+                text: contactDetails.linkedin,
+                style: "Hyperlink",
+                size: 22,
+                font: "Aptos (body)",
+              }),
+            ],
+            link: contactDetails.linkedin,
           }),
         ],
       })
