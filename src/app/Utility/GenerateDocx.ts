@@ -21,26 +21,6 @@ export const generateDocx = async (
     new Paragraph({
       children: [
         new TextRun({
-          text: `Email: `,
-          size: 22,
-          font: "Aptos (body)",
-        }),
-        new ExternalHyperlink({
-          children: [
-            new TextRun({
-              text: contactDetails.email,
-              style: "Hyperlink",
-              size: 22,
-              font: "Aptos (body)",
-            }),
-          ],
-          link: `mailto:${contactDetails.email}`,
-        }),
-      ],
-    }),
-    new Paragraph({
-      children: [
-        new TextRun({
           text: `Phone: ${contactDetails.phone}`,
           size: 22,
           font: "Aptos (body)",
@@ -62,6 +42,29 @@ export const generateDocx = async (
       })
     );
   }
+
+  contactParagraphs.push(
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: `Email: `,
+          size: 22,
+          font: "Aptos (body)",
+        }),
+        new ExternalHyperlink({
+          children: [
+            new TextRun({
+              text: contactDetails.email,
+              style: "Hyperlink",
+              size: 22,
+              font: "Aptos (body)",
+            }),
+          ],
+          link: `mailto:${contactDetails.email}`,
+        }),
+      ],
+    })
+  );
 
   if (linkedInEnabled) {
     contactParagraphs.push(
