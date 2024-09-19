@@ -1,8 +1,6 @@
 import { useRef, useMemo, useCallback, useLayoutEffect, useState } from "react";
 import { useSections } from "../Context/SectionsContext";
-import debounce from "lodash/debounce";
 import { useResumeContext } from "../Context/ResumeMetaContext";
-import AlertModal from "./Modals/AlertModal";
 import { useModal } from "../Context/ModalContext";
 
 interface DynamicHeightTextareaProps {
@@ -20,6 +18,10 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
     () => sections[sectionIndex].sectionContent[entryIndex].entryContent,
     [sections, sectionIndex, entryIndex]
   );
+  /* const textValue = useMemo(
+    () => sections[sectionIndex].sectionContent[entryIndex].entryContent || "",
+    [sections, sectionIndex, entryIndex]
+  ); */
   const { resumeRef, heightMinusPadding } = useResumeContext();
   const { openModal } = useModal();
 
@@ -55,22 +57,25 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
 
         if (!checkHeight()) {
           openModal("Adding more text will exceed the page limit.");
-          textarea.value = textValue;
+          [textarea.value] = textValue;
           adjustTextareaHeight();
           return;
         }
 
-        const newSections = [...sections];
-        newSections[sectionIndex].sectionContent[
-          entryIndex
-        ].entryContent.concat(newText);
-        setSections(newSections);
+        setSections((prevSections) => {
+          const updatedSections = [...prevSections];
+          updatedSections[sectionIndex].sectionContent[
+            entryIndex
+          ].entryContent = [newText];
+          return updatedSections;
+        });
+
+        adjustTextareaHeight();
       }
     },
     [
       adjustTextareaHeight,
       checkHeight,
-      sections,
       sectionIndex,
       entryIndex,
       setSections,

@@ -1,3 +1,4 @@
+import AboutMeModalContent from "../Components/Modals/AboutMeModalContent";
 import EducationModalContent from "../Components/Modals/EducationModalContent";
 import ReferenceModalContent from "../Components/Modals/ReferenceModalContent";
 import WorkExperienceModalContent from "../Components/Modals/WorkExperienceModalContent";
@@ -29,6 +30,12 @@ export const sectionContent: SectionContent = {
   "Work Experience": {
     renderContent: (closeModal, onConfirm) => (
       <WorkExperienceModalContent onConfirm={onConfirm} onClose={closeModal} />
+    ),
+    onConfirm: undefined,
+  },
+  "About Me": {
+    renderContent: (closeModal, onConfirm) => (
+      <AboutMeModalContent onConfirm={onConfirm} onClose={closeModal} />
     ),
     onConfirm: undefined,
   },

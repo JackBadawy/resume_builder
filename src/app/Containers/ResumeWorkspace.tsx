@@ -48,16 +48,17 @@ const ResumeWorkspace: React.FC = () => {
     );
   };
 
-  const handleSaveConfirm = async (fileName?: string) => {
-    if (resumeRef.current && fileName) {
+  const handleSaveConfirm = async (fileName?: string[]) => {
+    if (resumeRef.current && fileName && fileName.length > 0) {
+      const actualFileName = fileName[0];
       await generateDocx(
         resumeRef.current,
         contactDetails,
         linkedInEnabled,
         addressEnabled,
-        fileName
+        actualFileName
       );
-      setFileName(fileName);
+      setFileName(actualFileName);
       closeModal();
     }
   };

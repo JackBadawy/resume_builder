@@ -42,7 +42,7 @@ const Section: React.FC<SectionProps> = ({
           {section.sectionContent &&
             section.sectionContent.map((entry, entryIndex) => (
               <SectionEntryComponent
-                key={entry.id}
+                key={`${section.heading}.${entry.id}`}
                 entry={entry}
                 sectionIndex={index}
                 entryIndex={entryIndex}

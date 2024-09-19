@@ -8,8 +8,8 @@ import { ModalProvider } from "./ModalContext";
 
 const Providers: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <ModalProvider>
-      <ResumeHeadingProvider>
+    <ResumeHeadingProvider>
+      <ModalProvider>
         <FileContextProvider>
           <ResumeProvider>
             <SectionsProvider>
@@ -17,8 +17,8 @@ const Providers: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             </SectionsProvider>
           </ResumeProvider>
         </FileContextProvider>
-      </ResumeHeadingProvider>
-    </ModalProvider>
+      </ModalProvider>
+    </ResumeHeadingProvider>
   );
 };
 
