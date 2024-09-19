@@ -16,7 +16,9 @@ const GenerateButtons: React.FC<GenerateButtonsProps> = ({
   const { openModal } = useModal();
   const generateDocumentAttemptValidityCheck = (func: () => void) => {
     const emptySectionsCheck = sections.every(
-      (section) => section.sectionContent //need to fix
+      (section) =>
+        section.sectionContent.length &&
+        section.sectionContent.every((item) => !item.entryContent.includes(""))
     );
     if (emptySectionsCheck) {
       func();
