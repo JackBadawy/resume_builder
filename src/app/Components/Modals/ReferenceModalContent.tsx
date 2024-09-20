@@ -14,8 +14,12 @@ const ReferenceModalContent: React.FC<ReferenceModalContentProps> = ({
   const [position, setPosition] = useState("");
 
   const handleConfirm = () => {
-    const content = `name ${name}, phone ${phone}, position ${position}`;
-    onConfirm([content]);
+    const content = [
+      `Name: ${name}`,
+      `Phone: ${phone}`,
+      `Position: ${position}`,
+    ];
+    onConfirm(content);
     onClose();
   };
 
@@ -26,21 +30,21 @@ const ReferenceModalContent: React.FC<ReferenceModalContentProps> = ({
         placeholder="Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        className="mb-2 p-1 border"
+        className="mb-2 p-1 border w-full"
       />
       <input
         type="text"
         placeholder="Phone"
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
-        className="mb-2 p-1 border"
+        className="mb-2 p-1 border w-full"
       />
       <input
         type="text"
         placeholder="Position"
         value={position}
         onChange={(e) => setPosition(e.target.value)}
-        className="mb-2 p-1 border"
+        className="mb-2 p-1 border w-full"
       />
       <div className="flex justify-end gap-4">
         <button

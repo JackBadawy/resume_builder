@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSections } from "../Context/SectionsContext";
 import { useModal } from "../Context/ModalContext";
 import ATSModal from "./Modals/ATSModal";
@@ -43,7 +43,7 @@ const GenerateButtons: React.FC<GenerateButtonsProps> = ({
       </button>
       <button
         onClick={handleATSClick}
-        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded"
+        className="mb-4 px-4 py-2 bg-bws text-white rounded"
       >
         What is ATS?
       </button>
