@@ -35,21 +35,21 @@ const EducationModalContent: React.FC<EducationModalContentProps> = ({
         placeholder="Certification eg; bachelor of arts"
         value={certification}
         onChange={(e) => setCertification(e.target.value)}
-        className="mb-2 p-1 border text-black"
+        className="mb-2 p-1 rounded text-center bg-slate-600 w-full"
       />
       <input
         type="text"
         placeholder="School"
         value={school}
         onChange={(e) => setSchool(e.target.value)}
-        className="mb-2 p-1 border text-black"
+        className="mb-2 p-1 rounded text-center bg-slate-600 w-full"
       />
       <input
         type="text"
         placeholder="Position"
         value={timePeriod}
         onChange={(e) => setTimePeriod(e.target.value)}
-        className="mb-2 p-1 border text-black"
+        className="mb-2 p-1 rounded text-center bg-slate-600 w-full"
       />
 
       <div className="flex justify-end gap-4">
