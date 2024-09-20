@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SelectionCarosel from "../SelectionCarosel";
 import { useResumeHeading } from "@/app/Context/ResumeHeadingContext";
 
@@ -11,10 +11,11 @@ const AboutMeModalContent: React.FC<AboutMeModalContentProps> = ({
   onConfirm,
   onClose,
 }) => {
-  //might have slightly different layout in this one. an insert button that populates the about
-  //me para and maybe another modal to warn of existing content being overridden
-  //add template btn should be on this page
   const { fullName, jobTitle } = useResumeHeading();
+
+  useEffect(() => {
+    console.log("jobTitle: ", jobTitle);
+  }, [jobTitle]);
 
   const handleConfirm = () => {
     onConfirm([]);

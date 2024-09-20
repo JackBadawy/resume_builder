@@ -15,14 +15,7 @@ const SelectionCarosel: React.FC<SelectionCaroselProps> = ({
   const [userInfo, setUserInfo] = useState<string[]>([]);
   const [templateIndex, setTemplateIndex] = useState<number>(0);
 
-  /* useEffect(() => {
-    console.log("this is a carousel test");
-    if (fullName && jobTitle) {
-      const firstName = fullName.split(" ")[0];
-      setUserInfo([firstName, jobTitle]);
-    }
-  }, [fullName, jobTitle]); */
-  const aboutMeTemplates = AboutMeTemplateTable(userInfo[0], userInfo[1]);
+  const aboutMeTemplates = AboutMeTemplateTable(fullName, jobTitle);
 
   const handleAddTemplate = () => {
     const selectedTemplate = aboutMeTemplates[templateIndex];
