@@ -14,10 +14,12 @@ const WorkExperienceModalContent: React.FC<WorkExperienceModalContentProps> = ({
   const [employmentPeriod, setSetEmploymentPeriod] = useState("");
 
   const handleConfirm = () => {
-    if (jobTitle && employer && employmentPeriod) {
-      onConfirm([jobTitle, employer, employmentPeriod]);
-    }
-
+    const content = [
+      `Position: ${jobTitle}`,
+      `Employer: ${employer}`,
+      `Employment Period: ${employmentPeriod}`,
+    ];
+    onConfirm(content);
     onClose();
   };
 

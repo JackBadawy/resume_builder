@@ -16,11 +16,27 @@ const SectionEntryComponent: React.FC<EntryProps> = ({
   entryIndex,
   aboutMe,
 }) => {
+  const renderContent = (content: string) => {
+    const parts = content.split(": ");
+    if (parts.length > 1) {
+      return (
+        <p className="font-aptos text-black text-word-11 w-full border-none resize-none p-0">
+          <strong>{parts[0]}:</strong> {parts.slice(1).join(": ")}
+        </p>
+      );
+    }
+    return (
+      <p className="font-aptos text-black text-word-11 w-full border-none resize-none p-0">
+        {content}
+      </p>
+    );
+  };
+
   return (
-    <div className="mb-4">
+    <div className="relative">
       {aboutMe &&
         entry.entryContent.map((content, contentIndex) => (
-          <div key={contentIndex} className="flex mb-2">
+          <div key={contentIndex}>
             <DynamicHeightTxtArea
               sectionIndex={sectionIndex}
               entryIndex={entryIndex}
@@ -29,19 +45,15 @@ const SectionEntryComponent: React.FC<EntryProps> = ({
         ))}
       {!aboutMe &&
         entry.entryContent.map((content, contentIndex) => (
-          <div key={contentIndex} className="flex mb-2">
-            <p className="font-aptos text-black text-word-11 w-full border-none resize-none p-0 overflow-hidden outline-none">
-              {content}
-            </p>
+          <div key={contentIndex} className="mb-2">
+            {renderContent(content)}
           </div>
         ))}
       {!aboutMe && entry.entryContent.length > 0 && (
-        <div className="flex justify-end">
-          <EntryDeleteButton
-            sectionIndex={sectionIndex}
-            entryIndex={entryIndex}
-          />
-        </div>
+        <EntryDeleteButton
+          sectionIndex={sectionIndex}
+          entryIndex={entryIndex}
+        />
       )}
     </div>
   );
