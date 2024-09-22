@@ -225,7 +225,6 @@ const generateSectionParagraphs = (section: Section): Paragraph[] => {
         );
       }
     });
-    // Add a blank line between entries
     paragraphs.push(new Paragraph({}));
   });
 
