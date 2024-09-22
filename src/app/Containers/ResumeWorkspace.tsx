@@ -11,6 +11,7 @@ import { useContactDetails } from "../Context/ContactDetailsContext";
 import { useFileContext } from "../Context/FileContext";
 import { useModal } from "../Context/ModalContext";
 import { useResumeContext } from "../Context/ResumeMetaContext";
+import { useResumeHeading } from "../Context/ResumeHeadingContext";
 
 const ResumeWorkspace: React.FC = () => {
   const { sections } = useSections();
@@ -19,6 +20,7 @@ const ResumeWorkspace: React.FC = () => {
     useContactDetails();
   const { fileName, setFileName } = useFileContext();
   const { openModal, closeModal } = useModal();
+  const { fullName, jobTitle } = useResumeHeading();
 
   const generatePDF = () => {
     const pdf = new jsPDF({
@@ -52,8 +54,12 @@ const ResumeWorkspace: React.FC = () => {
     if (resumeRef.current && fileName && fileName.length > 0) {
       const actualFileName = fileName[0];
       await generateDocx(
-        resumeRef.current,
-        contactDetails,
+        sections,
+        {
+          ...contactDetails,
+          fullName: fullName,
+          jobTitle: jobTitle,
+        },
         linkedInEnabled,
         addressEnabled,
         actualFileName

@@ -7,17 +7,85 @@ import {
   ExternalHyperlink,
 } from "docx";
 import { saveAs } from "file-saver";
+import { Section, SectionEntry } from "../Context/SectionsContext";
 
 export const generateDocx = async (
-  resumeElement: HTMLDivElement,
+  sections: Section[],
   contactDetails: Record<string, string>,
   linkedInEnabled: boolean,
   addressEnabled: boolean,
   fileName: string
 ) => {
-  const elements = Array.from(resumeElement.querySelectorAll("[data-text]"));
+  const nameParagraph = new Paragraph({
+    children: [
+      new TextRun({
+        text: contactDetails.fullName,
+        bold: true,
+        size: 50,
+        font: "Aptos (body)",
+      }),
+    ],
+  });
 
-  const contactParagraphs = [
+  const jobTitleParagraph = new Paragraph({
+    children: [
+      new TextRun({
+        text: contactDetails.jobTitle,
+        bold: true,
+        size: 36,
+        font: "Aptos (body)",
+      }),
+    ],
+  });
+
+  const contactParagraphs = generateContactParagraphs(
+    contactDetails,
+    linkedInEnabled,
+    addressEnabled
+  );
+  const horizontalLineParagraph = createHorizontalLineParagraph();
+
+  const sectionParagraphs = sections.flatMap((section) =>
+    generateSectionParagraphs(section)
+  );
+
+  const PreSectionsLineBreakParagraph = new Paragraph({
+    children: [
+      new TextRun({
+        break: 1,
+      }),
+    ],
+  });
+
+  const docChildren = [
+    nameParagraph,
+    jobTitleParagraph,
+    horizontalLineParagraph,
+    ...contactParagraphs,
+    horizontalLineParagraph,
+    PreSectionsLineBreakParagraph,
+    ...sectionParagraphs,
+  ];
+
+  const doc = new Document({
+    sections: [
+      {
+        properties: {},
+        children: docChildren,
+      },
+    ],
+  });
+
+  const blob = await Packer.toBlob(doc);
+  saveAs(blob, `${fileName}.docx`);
+};
+
+const generateContactParagraphs = (
+  contactDetails: Record<string, string>,
+  linkedInEnabled: boolean,
+  addressEnabled: boolean
+): Paragraph[] => {
+  const paragraphs = [
     new Paragraph({
       children: [
         new TextRun({
@@ -30,7 +98,7 @@ export const generateDocx = async (
   ];
 
   if (addressEnabled) {
-    contactParagraphs.push(
+    paragraphs.push(
       new Paragraph({
         children: [
           new TextRun({
@@ -43,7 +111,7 @@ export const generateDocx = async (
     );
   }
 
-  contactParagraphs.push(
+  paragraphs.push(
     new Paragraph({
       children: [
         new TextRun({
@@ -67,7 +135,7 @@ export const generateDocx = async (
   );
 
   if (linkedInEnabled) {
-    contactParagraphs.push(
+    paragraphs.push(
       new Paragraph({
         children: [
           new TextRun({
@@ -91,7 +159,11 @@ export const generateDocx = async (
     );
   }
 
-  const horizontalLineParagraph = new Paragraph({
+  return paragraphs;
+};
+
+const createHorizontalLineParagraph = (): Paragraph => {
+  return new Paragraph({
     border: {
       bottom: {
         color: "000000",
@@ -101,111 +173,61 @@ export const generateDocx = async (
       },
     },
   });
+};
 
-  const filteredElements = elements.filter(
-    (element) => !(element as HTMLInputElement).id.includes("contactDetail")
-  );
-
-  const contentParagraphs = filteredElements
-    .map((element) => {
-      const htmlElement = element as HTMLElement;
-      let textContent =
-        (htmlElement as HTMLTextAreaElement).value || htmlElement.innerText;
-
-      if (htmlElement.tagName.toLowerCase() === "textarea") {
-        const textRuns = textContent.split("\n").map((line, index, array) => [
-          new TextRun({
-            text: line,
-            size: 22,
-            font: "Aptos (body)",
-          }),
-          index < array.length - 1 ? new TextRun({ break: 1 }) : undefined,
-        ]);
-        return new Paragraph({
-          children: textRuns
-            .flat()
-            .filter((run) => run !== undefined) as TextRun[],
-        });
-      } else if (htmlElement.tagName.toLowerCase() === "span") {
-        return new Paragraph({
-          children: [
-            new TextRun({
-              text: textContent,
-              bold: true,
-              underline: {},
-              size: 32,
-              font: "Aptos (body)",
-            }),
-          ],
-        });
-      } else if (
-        htmlElement.tagName.toLowerCase() === "input" &&
-        !htmlElement.id.includes("contactDetail")
-      ) {
-        const isJobTitle = htmlElement.id === "jobTitle";
-        const headingParagraph = new Paragraph({
-          children: [
-            new TextRun({
-              text: textContent,
-              bold: true,
-              size: isJobTitle ? 36 : 50,
-              font: "Aptos (body)",
-            }),
-          ],
-        });
-
-        if (isJobTitle) {
-          const horizontalLineParagraph = new Paragraph({
-            border: {
-              bottom: {
-                color: "000000",
-                space: 1,
-                style: BorderStyle.SINGLE,
-                size: 6,
-              },
-            },
-          });
-
-          const breakParagraph = new Paragraph({
-            children: [
-              new TextRun({
-                break: 1,
-              }),
-            ],
-          });
-
-          return [headingParagraph, horizontalLineParagraph, breakParagraph];
-        }
-
-        return headingParagraph;
-      }
-
-      return new Paragraph({
-        children: [
-          new TextRun({
-            text: textContent,
-          }),
-        ],
-      });
-    })
-    .flat();
-
-  const docChildren = [
-    ...contentParagraphs.slice(0, 3),
-    ...contactParagraphs,
-    horizontalLineParagraph,
-    ...contentParagraphs.slice(3),
+const generateSectionParagraphs = (section: Section): Paragraph[] => {
+  const paragraphs: Paragraph[] = [
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: section.heading,
+          bold: true,
+          underline: {},
+          size: 32,
+          font: "Aptos (body)",
+        }),
+      ],
+    }),
   ];
 
-  const doc = new Document({
-    sections: [
-      {
-        properties: {},
-        children: docChildren,
-      },
-    ],
+  section.sectionContent.forEach((entry: SectionEntry) => {
+    entry.entryContent.forEach((content: string) => {
+      const parts = content.split(": ");
+      if (parts.length > 1) {
+        paragraphs.push(
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: `${parts[0]}: `,
+                bold: true,
+                size: 22,
+                font: "Aptos (body)",
+              }),
+              new TextRun({
+                text: parts.slice(1).join(": "),
+                size: 22,
+                font: "Aptos (body)",
+              }),
+            ],
+          })
+        );
+      } else {
+        paragraphs.push(
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: content,
+                size: 22,
+                font: "Aptos (body)",
+              }),
+            ],
+          })
+        );
+      }
+    });
+    // Add a blank line between entries
+    paragraphs.push(new Paragraph({}));
   });
 
-  const blob = await Packer.toBlob(doc);
-  saveAs(blob, `${fileName}.docx`);
+  return paragraphs;
 };
