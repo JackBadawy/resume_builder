@@ -7,11 +7,21 @@ import {
   ReactNode,
 } from "react";
 
+interface LinkedInData {
+  displayText: string;
+  profileUrl: string;
+}
+
+interface ContactDetails {
+  email: string;
+  phone: string;
+  address: string;
+  linkedin: LinkedInData;
+}
+
 interface ContactDetailsContextProps {
-  contactDetails: Record<string, string>;
-  setContactDetails: React.Dispatch<
-    React.SetStateAction<Record<string, string>>
-  >;
+  contactDetails: ContactDetails;
+  setContactDetails: React.Dispatch<React.SetStateAction<ContactDetails>>;
   linkedInEnabled: boolean;
   setLinkedInEnabled: (enabled: boolean) => void;
   addressEnabled: boolean;
@@ -27,17 +37,28 @@ export const ContactDetailsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [contactDetails, setContactDetails] = useState<Record<string, string>>(
-    () => {
-      if (typeof window !== "undefined") {
-        const saved = localStorage.getItem("contactDetails");
-        return saved
-          ? JSON.parse(saved)
-          : { email: "", phone: "", address: "", linkedin: "" };
+  const [contactDetails, setContactDetails] = useState<ContactDetails>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("contactDetails");
+      if (saved) {
+        const parsedData = JSON.parse(saved);
+        if (typeof parsedData.linkedin === "string") {
+          return {
+            ...parsedData,
+            linkedin: { displayText: parsedData.linkedin, profileUrl: "" },
+          };
+        }
+        return parsedData;
       }
-      return { email: "", phone: "", address: "", linkedin: "" };
     }
-  );
+    return {
+      email: "",
+      phone: "",
+      address: "",
+      linkedin: { displayText: "", profileUrl: "" },
+    };
+  });
+
   const [linkedInEnabled, setLinkedInEnabled] = useState(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("linkedInEnabled");
@@ -45,6 +66,7 @@ export const ContactDetailsProvider: React.FC<{ children: ReactNode }> = ({
     }
     return true;
   });
+
   const [addressEnabled, setAddressEnabled] = useState(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("addressEnabled");

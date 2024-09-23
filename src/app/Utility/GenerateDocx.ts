@@ -9,9 +9,21 @@ import {
 import { saveAs } from "file-saver";
 import { Section, SectionEntry } from "../Context/SectionsContext";
 
+interface ContactDetails {
+  fullName: string;
+  jobTitle: string;
+  phone: string;
+  address: string;
+  email: string;
+  linkedin: {
+    displayText: string;
+    profileUrl: string;
+  };
+}
+
 export const generateDocx = async (
   sections: Section[],
-  contactDetails: Record<string, string>,
+  contactDetails: ContactDetails,
   linkedInEnabled: boolean,
   addressEnabled: boolean,
   fileName: string
@@ -81,7 +93,7 @@ export const generateDocx = async (
 };
 
 const generateContactParagraphs = (
-  contactDetails: Record<string, string>,
+  contactDetails: ContactDetails,
   linkedInEnabled: boolean,
   addressEnabled: boolean
 ): Paragraph[] => {
@@ -134,7 +146,7 @@ const generateContactParagraphs = (
     })
   );
 
-  if (linkedInEnabled) {
+  if (linkedInEnabled && contactDetails.linkedin.profileUrl) {
     paragraphs.push(
       new Paragraph({
         children: [
@@ -146,13 +158,13 @@ const generateContactParagraphs = (
           new ExternalHyperlink({
             children: [
               new TextRun({
-                text: contactDetails.linkedin,
+                text: contactDetails.linkedin.displayText,
                 style: "Hyperlink",
                 size: 22,
                 font: "Aptos (body)",
               }),
             ],
-            link: contactDetails.linkedin,
+            link: contactDetails.linkedin.profileUrl,
           }),
         ],
       })
