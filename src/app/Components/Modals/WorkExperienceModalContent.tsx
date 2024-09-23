@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 interface WorkExperienceModalContentProps {
   onConfirm: (content: string[]) => void;
@@ -9,15 +9,68 @@ const WorkExperienceModalContent: React.FC<WorkExperienceModalContentProps> = ({
   onConfirm,
   onClose,
 }) => {
-  const [jobTitle, setJobtitle] = useState("");
+  const [jobTitle, setJobTitle] = useState("");
   const [employer, setEmployer] = useState("");
-  const [employmentPeriod, setSetEmploymentPeriod] = useState("");
+  const [employmentPeriod, setEmploymentPeriod] = useState("");
+  const [duties, setDuties] = useState<string[]>([""]);
+  const [error, setError] = useState("");
+
+  const handleAddDuty = () => {
+    setDuties([...duties, ""]);
+  };
+
+  const handleDutyChange = (index: number, value: string) => {
+    const newDuties = [...duties];
+    newDuties[index] = value;
+    setDuties(newDuties);
+  };
+
+  const validateEmploymentPeriod = (period: string): boolean => {
+    const regex = /^\d{4}-\d{4}$/;
+    if (!regex.test(period)) {
+      setError("Employment period should be in the format YYYY-YYYY");
+      return false;
+    }
+
+    const [startYear, endYear] = period.split("-").map(Number);
+    if (endYear <= startYear) {
+      setError("End year should be greater than start year");
+      return false;
+    }
+
+    return true;
+  };
+
+  const validateAllFieldsFilled = (): boolean => {
+    if (
+      !jobTitle ||
+      !employer ||
+      !employmentPeriod ||
+      duties.every((duty) => !duty.trim())
+    ) {
+      setError("Please fill in all fields");
+      return false;
+    }
+    return true;
+  };
 
   const handleConfirm = () => {
+    setError("");
+
+    if (!validateAllFieldsFilled()) {
+      return;
+    }
+
+    if (!validateEmploymentPeriod(employmentPeriod)) {
+      return;
+    }
+
     const content = [
       `Position: ${jobTitle}`,
       `Employer: ${employer}`,
       `Employment Period: ${employmentPeriod}`,
+      "Duties:",
+      ...duties.filter((duty) => duty.trim() !== "").map((duty) => `• ${duty}`),
     ];
     onConfirm(content);
     onClose();
@@ -29,7 +82,7 @@ const WorkExperienceModalContent: React.FC<WorkExperienceModalContentProps> = ({
         type="text"
         placeholder="Job Title"
         value={jobTitle}
-        onChange={(e) => setJobtitle(e.target.value)}
+        onChange={(e) => setJobTitle(e.target.value)}
         className="mb-2 p-1 rounded text-center bg-slate-600 w-full"
       />
       <input
@@ -41,16 +94,33 @@ const WorkExperienceModalContent: React.FC<WorkExperienceModalContentProps> = ({
       />
       <input
         type="text"
-        placeholder="Employment Period"
+        placeholder="Employment Period (YYYY-YYYY)"
         value={employmentPeriod}
-        onChange={(e) => setSetEmploymentPeriod(e.target.value)}
+        onChange={(e) => setEmploymentPeriod(e.target.value)}
         className="mb-2 p-1 rounded text-center bg-slate-600 w-full"
       />
-      <div className="flex justify-end gap-4 mt-2">
+      <div className="mb-2">
+        <p className="text-white mb-1">Duties:</p>
+        {duties.map((duty, index) => (
+          <input
+            key={index}
+            type="text"
+            placeholder={`Duty ${index + 1}`}
+            value={duty}
+            onChange={(e) => handleDutyChange(index, e.target.value)}
+            className="mb-1 p-1 rounded text-center bg-slate-600 w-full"
+          />
+        ))}
         <button
-          className={`px-4 py-2 rounded ${"bg-gray-600"}`}
-          onClick={onClose}
+          onClick={handleAddDuty}
+          className="mt-1 px-2 py-1 bg-bws rounded text-sm"
         >
+          Add Duty
+        </button>
+      </div>
+      {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
+      <div className="flex justify-end gap-4 mt-2">
+        <button className="px-4 py-2 rounded bg-gray-600" onClick={onClose}>
           Cancel
         </button>
         <button onClick={handleConfirm} className="px-4 py-2 bg-bws rounded">

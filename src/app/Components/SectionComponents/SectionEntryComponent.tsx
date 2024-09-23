@@ -17,6 +17,20 @@ const SectionEntryComponent: React.FC<EntryProps> = ({
   aboutMe,
 }) => {
   const renderContent = (content: string) => {
+    if (content === "Duties:") {
+      return (
+        <p className="font-aptos text-black text-word-11 w-full border-none resize-none p-0 font-bold">
+          {content}
+        </p>
+      );
+    }
+    if (content.startsWith("• ")) {
+      return (
+        <p className="font-aptos text-black text-word-11 w-full border-none resize-none p-0 pl-4">
+          {content}
+        </p>
+      );
+    }
     const parts = content.split(": ");
     if (parts.length > 1) {
       return (
