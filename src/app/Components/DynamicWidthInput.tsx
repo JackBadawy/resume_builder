@@ -37,7 +37,8 @@ const DynamicWidthInput: React.FC<DynamicWidthInputProps> = ({
   }, [value, adjustInputWidth]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value);
+    const newValue = e.target.value.slice(0, 24);
+    onChange(newValue);
   };
 
   return (
@@ -49,6 +50,7 @@ const DynamicWidthInput: React.FC<DynamicWidthInputProps> = ({
       placeholder={placeholder}
       className={`p-2 rounded text-center min-w-[1px] outline-none ${className}`}
       style={{ width: "auto" }}
+      maxLength={24}
     />
   );
 };
