@@ -23,6 +23,7 @@ https://resumebuilderjb.netlify.app/
 - React Context API for state management
 - jsPDF for PDF generation
 - Custom DOCX generation
+- Selenium WebDriver for end-to-end testing
 
 ## Key Components
 
@@ -44,6 +45,17 @@ A reusable modal component for:
 - File naming
 - Displaying information
 
+## Testing
+
+The application includes end-to-end tests using Selenium WebDriver. These tests cover:
+
+- Filling out basic resume information
+- Attempting to generate a DOCX file
+- Toggling LinkedIn and Address visibility
+- Resetting sections
+
+These tests ensure the core functionality of the resume builder works as expected across different browsers and environments.
+
 ## Usage
 
 1. Fill in your resume details in the provided sections
@@ -51,3 +63,12 @@ A reusable modal component for:
 3. Preview your resume in real-time
 4. Generate your resume as a Word document
 5. Learn about ATS-friendly resumes using the "What is ATS?" button
+
+## Running Tests
+
+To run the Selenium tests:
+
+1. Ensure you have the necessary WebDriver installed (e.g., ChromeDriver for Google Chrome)
+2. Run `npm run test:selenium` in the project directory
+
+Note: Make sure the application is running locally before executing the tests.
