@@ -103,6 +103,16 @@ export const SectionsProvider: React.FC<{ children: ReactNode }> = ({
 
     const newSections = [...sections];
 
+    if (
+      newSections[sectionIndex].heading === "References" &&
+      newSections[sectionIndex].sectionContent.length >= 3
+    ) {
+      setTimeout(() => {
+        openModal("You can only add a maximum of three references.");
+      }, 1);
+      return;
+    }
+
     if (newSections[sectionIndex].heading === "About Me") {
       newSections[sectionIndex].sectionContent = [
         {

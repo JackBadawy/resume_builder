@@ -59,7 +59,7 @@ const SectionEntryComponent: React.FC<EntryProps> = ({
         ))}
       {!aboutMe &&
         entry.entryContent.map((content, contentIndex) => (
-          <div key={contentIndex} className="mb-2">
+          <div key={contentIndex} className="mb-0.5">
             {renderContent(content)}
           </div>
         ))}

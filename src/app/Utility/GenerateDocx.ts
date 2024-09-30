@@ -5,6 +5,11 @@ import {
   TextRun,
   BorderStyle,
   ExternalHyperlink,
+  Table,
+  TableRow,
+  TableCell,
+  ITableCellOptions,
+  WidthType,
 } from "docx";
 import { saveAs } from "file-saver";
 import { Section, SectionEntry } from "../Context/SectionsContext";
@@ -57,7 +62,7 @@ export const generateDocx = async (
   );
   const horizontalLineParagraph = createHorizontalLineParagraph();
 
-  const sectionParagraphs = sections.flatMap((section) =>
+  const sectionElements = sections.flatMap((section) =>
     generateSectionParagraphs(section)
   );
 
@@ -76,7 +81,7 @@ export const generateDocx = async (
     ...contactParagraphs,
     horizontalLineParagraph,
     PreSectionsLineBreakParagraph,
-    ...sectionParagraphs,
+    ...sectionElements,
   ];
 
   const doc = new Document({
@@ -187,8 +192,8 @@ const createHorizontalLineParagraph = (): Paragraph => {
   });
 };
 
-const generateSectionParagraphs = (section: Section): Paragraph[] => {
-  const paragraphs: Paragraph[] = [
+const generateSectionParagraphs = (section: Section): (Paragraph | Table)[] => {
+  const elements: (Paragraph | Table)[] = [
     new Paragraph({
       children: [
         new TextRun({
@@ -202,43 +207,98 @@ const generateSectionParagraphs = (section: Section): Paragraph[] => {
     }),
   ];
 
-  section.sectionContent.forEach((entry: SectionEntry) => {
-    entry.entryContent.forEach((content: string) => {
-      const parts = content.split(": ");
-      if (parts.length > 1) {
-        paragraphs.push(
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: `${parts[0]}: `,
-                bold: true,
-                size: 22,
-                font: "Aptos (body)",
-              }),
-              new TextRun({
-                text: parts.slice(1).join(": "),
-                size: 22,
-                font: "Aptos (body)",
-              }),
-            ],
-          })
-        );
-      } else {
-        paragraphs.push(
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: content,
-                size: 22,
-                font: "Aptos (body)",
-              }),
-            ],
-          })
-        );
-      }
+  if (section.heading === "References") {
+    const table = new Table({
+      width: {
+        size: 100,
+        type: WidthType.PERCENTAGE,
+      },
+      borders: {
+        top: { style: BorderStyle.NONE },
+        bottom: { style: BorderStyle.NONE },
+        left: { style: BorderStyle.NONE },
+        right: { style: BorderStyle.NONE },
+        insideHorizontal: { style: BorderStyle.NONE },
+        insideVertical: { style: BorderStyle.NONE },
+      },
+      rows: [
+        new TableRow({
+          children: section.sectionContent.map(
+            (entry: SectionEntry) =>
+              new TableCell({
+                children: entry.entryContent.map((content) => {
+                  const [label, value] = content.split(": ");
+                  return new Paragraph({
+                    children: [
+                      new TextRun({
+                        text: `${label}: `,
+                        bold: true,
+                        size: 22,
+                        font: "Aptos (body)",
+                      }),
+                      new TextRun({
+                        text: value,
+                        size: 22,
+                        font: "Aptos (body)",
+                      }),
+                    ],
+                  });
+                }),
+                borders: {
+                  top: { style: BorderStyle.NONE },
+                  bottom: { style: BorderStyle.NONE },
+                  left: { style: BorderStyle.NONE },
+                  right: { style: BorderStyle.NONE },
+                },
+                width: {
+                  size: 100 / section.sectionContent.length,
+                  type: WidthType.PERCENTAGE,
+                },
+              })
+          ),
+        }),
+      ],
     });
-    paragraphs.push(new Paragraph({}));
-  });
+    elements.push(table);
+  } else {
+    section.sectionContent.forEach((entry: SectionEntry) => {
+      entry.entryContent.forEach((content: string) => {
+        const parts = content.split(": ");
+        if (parts.length > 1) {
+          elements.push(
+            new Paragraph({
+              children: [
+                new TextRun({
+                  text: `${parts[0]}: `,
+                  bold: true,
+                  size: 22,
+                  font: "Aptos (body)",
+                }),
+                new TextRun({
+                  text: parts.slice(1).join(": "),
+                  size: 22,
+                  font: "Aptos (body)",
+                }),
+              ],
+            })
+          );
+        } else {
+          elements.push(
+            new Paragraph({
+              children: [
+                new TextRun({
+                  text: content,
+                  size: 22,
+                  font: "Aptos (body)",
+                }),
+              ],
+            })
+          );
+        }
+      });
+      elements.push(new Paragraph({}));
+    });
+  }
 
-  return paragraphs;
+  return elements;
 };

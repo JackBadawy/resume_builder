@@ -24,7 +24,7 @@ const EntryDeleteButton: React.FC<EntryProps> = ({
   return (
     <button
       onClick={() => handleDelete()}
-      className="bg-bws px-2 rounded absolute top-0 right-0 transform translate-x-full -translate-y-full"
+      className="bg-bws px-2 rounded absolute top-[1cm] left-[-1.8cm] transform translate-x-full -translate-y-full"
     >
       <FontAwesomeIcon icon={faTrash} />
     </button>

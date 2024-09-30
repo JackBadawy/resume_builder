@@ -1,5 +1,4 @@
-"use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import SubHeading from "./SubHeading";
 import { useSections } from "../Context/SectionsContext";
 import SectionHelperBtn from "./SectionComponents/SectionHelperBtn";
@@ -18,38 +17,45 @@ const Section: React.FC<SectionProps> = ({
   index,
 }) => {
   const { isLoading } = useSections();
-  const [hydrated, setHydrated] = useState(false);
 
-  useEffect(() => {
-    setHydrated(true);
-  }, []);
-
-  if (!hydrated) {
-    return null;
+  if (isLoading) {
+    return (
+      <div>
+        <SubHeading text="loading" />
+        <div className="text-black">Loading section...</div>
+      </div>
+    );
   }
+
+  const isReferences = section.heading === "References";
 
   return (
     <div>
-      {isLoading ? (
-        <div>
-          <SubHeading text="loading" />
-          <div className="text-black">Loading section...</div>
-        </div>
-      ) : (
-        <div>
-          <SubHeading text={subHeadingText} />
-          <SectionHelperBtn section={section} index={index} />
-          {section.sectionContent &&
-            section.sectionContent.map((entry, entryIndex) => (
+      <SubHeading text={subHeadingText} />
+      <SectionHelperBtn section={section} index={index} />
+      {isReferences ? (
+        <div className="flex flex-wrap gap-20">
+          {section.sectionContent.map((entry, entryIndex) => (
+            <div key={`${section.heading}.${entry.id}`}>
               <SectionEntryComponent
-                key={`${section.heading}.${entry.id}`}
                 entry={entry}
                 sectionIndex={index}
                 entryIndex={entryIndex}
-                aboutMe={section.heading === "About Me" ? true : false}
+                aboutMe={false}
               />
-            ))}
+            </div>
+          ))}
         </div>
+      ) : (
+        section.sectionContent.map((entry, entryIndex) => (
+          <SectionEntryComponent
+            key={`${section.heading}.${entry.id}`}
+            entry={entry}
+            sectionIndex={index}
+            entryIndex={entryIndex}
+            aboutMe={section.heading === "About Me"}
+          />
+        ))
       )}
     </div>
   );
