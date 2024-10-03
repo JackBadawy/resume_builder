@@ -55,6 +55,7 @@ const ReferenceModalContent: React.FC<ReferenceModalContentProps> = ({
           setError("");
         }}
         className="mb-2 p-1 rounded text-center bg-slate-600 w-full"
+        id="NameInput"
       />
       <input
         type="text"
@@ -65,6 +66,7 @@ const ReferenceModalContent: React.FC<ReferenceModalContentProps> = ({
           setError("");
         }}
         className="mb-2 p-1 rounded text-center bg-slate-600 w-full"
+        id="PhoneInput"
       />
       <input
         type="text"
@@ -75,13 +77,18 @@ const ReferenceModalContent: React.FC<ReferenceModalContentProps> = ({
           setError("");
         }}
         className="mb-2 p-1 rounded text-center bg-slate-600 w-full"
+        id="PositionInput"
       />
       {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
       <div className="flex justify-end gap-4 mt-2">
         <button className="px-4 py-2 rounded bg-gray-600" onClick={onClose}>
           Cancel
         </button>
-        <button onClick={handleConfirm} className="px-4 py-2 bg-bws rounded">
+        <button
+          onClick={handleConfirm}
+          className="px-4 py-2 bg-bws rounded"
+          id="ConfirmButton"
+        >
           Confirm
         </button>
       </div>

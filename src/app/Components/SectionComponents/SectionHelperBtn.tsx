@@ -35,8 +35,12 @@ const SectionHelperBtn: React.FC<SectionHelperProps> = ({ section, index }) => {
   };
 
   return (
-    <button onClick={openHelperModal} className="bg-bws ml-2 px-2 rounded">
-      ?
+    <button
+      onClick={openHelperModal}
+      className="bg-bws ml-2 px-2 rounded"
+      id={`Help${section.heading.replace(/\s+/g, "")}`}
+    >
+      +
     </button>
   );
 };

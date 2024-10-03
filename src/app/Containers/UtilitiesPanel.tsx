@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useSections } from "../Context/SectionsContext";
-import ToggleSwitch from "./ToggleSwitch";
+import ToggleSwitch from "../Components/ToggleSwitch";
 import { useContactDetails } from "../Context/ContactDetailsContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -119,12 +119,14 @@ const UtilityPanel: React.FC = () => {
                     <button
                       onClick={() => moveSectionUp(index)}
                       className="bg-bws text-white px-2 rounded"
+                      id={`${section.heading}UpBtn`}
                     >
                       <FontAwesomeIcon icon={faArrowUp} />
                     </button>
                     <button
                       onClick={() => moveSectionDown(index)}
                       className="bg-bws text-white px-2 rounded"
+                      id={`${section.heading}DwnBtn`}
                     >
                       <FontAwesomeIcon icon={faArrowDown} />
                     </button>

@@ -42,6 +42,7 @@ const Section: React.FC<SectionProps> = ({
                 sectionIndex={index}
                 entryIndex={entryIndex}
                 aboutMe={false}
+                heading={section.heading}
               />
             </div>
           ))}
@@ -54,6 +55,7 @@ const Section: React.FC<SectionProps> = ({
             sectionIndex={index}
             entryIndex={entryIndex}
             aboutMe={section.heading === "About Me"}
+            heading={section.heading}
           />
         ))
       )}

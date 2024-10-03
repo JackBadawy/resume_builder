@@ -49,7 +49,7 @@ const AlertModal: React.FC<ModalProps> = ({
             className="bg-gray-700 text-white"
           />
           <p className="p-2 pl-1 rounded text-center min-w-[1px] outline-none">
-            .docx & pdf
+            .docx
           </p>
         </div>
       );

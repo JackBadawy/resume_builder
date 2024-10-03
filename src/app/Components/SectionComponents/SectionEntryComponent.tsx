@@ -8,6 +8,7 @@ interface EntryProps {
   sectionIndex: number;
   entryIndex: number;
   aboutMe: boolean;
+  heading: string;
 }
 
 const SectionEntryComponent: React.FC<EntryProps> = ({
@@ -15,11 +16,15 @@ const SectionEntryComponent: React.FC<EntryProps> = ({
   sectionIndex,
   entryIndex,
   aboutMe,
+  heading,
 }) => {
   const renderContent = (content: string) => {
     if (content === "Duties:") {
       return (
-        <p className="font-aptos text-black text-word-11 w-full border-none resize-none p-0 font-bold">
+        <p
+          className="font-aptos text-black text-word-11 w-full border-none resize-none p-0 font-bold"
+          id={`${heading.replace(/\s+/g, "")}-${entryIndex}`}
+        >
           {content}
         </p>
       );
@@ -47,13 +52,17 @@ const SectionEntryComponent: React.FC<EntryProps> = ({
   };
 
   return (
-    <div className="relative">
+    <div
+      className="relative"
+      id={`${heading.replace(/\s+/g, "")}${entryIndex}`}
+    >
       {aboutMe &&
         entry.entryContent.map((content, contentIndex) => (
           <div key={contentIndex}>
             <DynamicHeightTxtArea
               sectionIndex={sectionIndex}
               entryIndex={entryIndex}
+              id={`${heading.replace(/\s+/g, "")}-${entryIndex}`}
             />
           </div>
         ))}

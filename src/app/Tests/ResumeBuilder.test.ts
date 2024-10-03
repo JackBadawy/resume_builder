@@ -1,11 +1,4 @@
-import {
-  Builder,
-  By,
-  until,
-  WebDriver,
-  WebElement,
-  Key,
-} from "selenium-webdriver";
+import { Builder, By, until, WebDriver, WebElement } from "selenium-webdriver";
 import { Options as ChromeOptions } from "selenium-webdriver/chrome";
 import { expect } from "chai";
 

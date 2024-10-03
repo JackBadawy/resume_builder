@@ -69,6 +69,7 @@ const EducationModalContent: React.FC<EducationModalContentProps> = ({
         value={certification}
         onChange={(e) => setCertification(e.target.value)}
         className="mb-2 p-1 rounded text-center bg-slate-600 w-full"
+        id="CertificationInput"
       />
       <input
         type="text"
@@ -76,6 +77,7 @@ const EducationModalContent: React.FC<EducationModalContentProps> = ({
         value={school}
         onChange={(e) => setSchool(e.target.value)}
         className="mb-2 p-1 rounded text-center bg-slate-600 w-full"
+        id="SchoolInput"
       />
       <input
         type="text"
@@ -83,6 +85,7 @@ const EducationModalContent: React.FC<EducationModalContentProps> = ({
         value={timePeriod}
         onChange={(e) => setTimePeriod(e.target.value)}
         className="mb-2 p-1 rounded text-center bg-slate-600 w-full"
+        id="TimePeriodInput"
       />
       {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
       <div className="flex justify-end gap-4">
@@ -92,7 +95,11 @@ const EducationModalContent: React.FC<EducationModalContentProps> = ({
         >
           Cancel
         </button>
-        <button onClick={handleConfirm} className="px-4 py-2 bg-bws rounded">
+        <button
+          onClick={handleConfirm}
+          className="px-4 py-2 bg-bws rounded"
+          id="ConfirmButton"
+        >
           Confirm
         </button>
       </div>

@@ -3,7 +3,7 @@ import jsPDF from "jspdf";
 import { generateDocx } from "../Utility/GenerateDocx";
 import ResumeSection from "../Components/ResumeSection";
 import { useSections } from "../Context/SectionsContext";
-import UtilityPanel from "../Components/UtilitiesPanel";
+import UtilityPanel from "./UtilitiesPanel";
 import GenerateButtons from "../Components/GenerateButtons";
 import ResumeHeading from "../Components/ResumeHeading";
 import ContactDetails from "../Components/ContactDetails";

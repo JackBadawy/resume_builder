@@ -6,11 +6,13 @@ import { useModal } from "../Context/ModalContext";
 interface DynamicHeightTextareaProps {
   sectionIndex: number;
   entryIndex: number;
+  id: string;
 }
 
 const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
   sectionIndex,
   entryIndex,
+  id,
 }) => {
   const { sections, setSections } = useSections();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -95,6 +97,7 @@ const DynamicHeightTxtArea: React.FC<DynamicHeightTextareaProps> = ({
         value={textValue}
         style={{ height: "auto" }}
         data-text
+        id={`${id}`}
       />
     </>
   );

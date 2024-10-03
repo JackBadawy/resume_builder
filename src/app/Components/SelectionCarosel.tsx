@@ -76,6 +76,7 @@ const SelectionCarosel: React.FC<SelectionCaroselProps> = ({
         <button
           onClick={handleAddTemplate}
           className="px-4 py-2 bg-bws rounded mt-1"
+          id="AddTemplateButton"
         >
           Add Template
         </button>

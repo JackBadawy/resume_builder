@@ -84,6 +84,7 @@ const WorkExperienceModalContent: React.FC<WorkExperienceModalContentProps> = ({
         value={jobTitle}
         onChange={(e) => setJobTitle(e.target.value)}
         className="mb-2 p-1 rounded text-center bg-slate-600 w-full"
+        id="JobTitleInput"
       />
       <input
         type="text"
@@ -91,6 +92,7 @@ const WorkExperienceModalContent: React.FC<WorkExperienceModalContentProps> = ({
         value={employer}
         onChange={(e) => setEmployer(e.target.value)}
         className="mb-2 p-1 rounded text-center bg-slate-600 w-full"
+        id="EmployerInput"
       />
       <input
         type="text"
@@ -98,6 +100,7 @@ const WorkExperienceModalContent: React.FC<WorkExperienceModalContentProps> = ({
         value={employmentPeriod}
         onChange={(e) => setEmploymentPeriod(e.target.value)}
         className="mb-2 p-1 rounded text-center bg-slate-600 w-full"
+        id="EmploymentPeriodInput"
       />
       <div className="mb-2">
         <p className="text-white mb-1">Duties:</p>
@@ -109,6 +112,7 @@ const WorkExperienceModalContent: React.FC<WorkExperienceModalContentProps> = ({
             value={duty}
             onChange={(e) => handleDutyChange(index, e.target.value)}
             className="mb-1 p-1 rounded text-center bg-slate-600 w-full"
+            id={`DutyInput${index}`}
           />
         ))}
         <button
@@ -123,7 +127,11 @@ const WorkExperienceModalContent: React.FC<WorkExperienceModalContentProps> = ({
         <button className="px-4 py-2 rounded bg-gray-600" onClick={onClose}>
           Cancel
         </button>
-        <button onClick={handleConfirm} className="px-4 py-2 bg-bws rounded">
+        <button
+          onClick={handleConfirm}
+          className="px-4 py-2 bg-bws rounded"
+          id="ConfirmButton"
+        >
           Confirm
         </button>
       </div>
