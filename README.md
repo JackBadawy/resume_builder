@@ -21,9 +21,20 @@ https://resumebuilderjb.netlify.app/
 - Next.js
 - TypeScript
 - React Context API for state management
-- jsPDF for PDF generation
-- Custom DOCX generation
+- DOCX Api
 - Selenium WebDriver for end-to-end testing
+
+## Testing
+
+The application includes end-to-end tests using Selenium WebDriver. These tests cover:
+
+- Filling out basic resume information
+- Attempting to generate a DOCX file
+- Toggling LinkedIn and Address visibility
+- Resetting sections
+- Creating new Section entries
+
+These tests ensure the core functionality of the resume builder works as expected across different browsers and environments.
 
 ## Key Components
 
@@ -44,17 +55,6 @@ A reusable modal component for:
 - Confirmations
 - File naming
 - Displaying information
-
-## Testing
-
-The application includes end-to-end tests using Selenium WebDriver. These tests cover:
-
-- Filling out basic resume information
-- Attempting to generate a DOCX file
-- Toggling LinkedIn and Address visibility
-- Resetting sections
-
-These tests ensure the core functionality of the resume builder works as expected across different browsers and environments.
 
 ## Usage
 
